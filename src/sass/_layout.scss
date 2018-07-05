@@ -1,0 +1,48 @@
+$view-port-width: 0 / 100 * 1px;
+$view-port-height: 0 / 100 * 1px;
+
+$min-width: 320px;
+$max-width: 1530px;
+
+$header-bg-height: 150px;
+$topline-height: 54px;
+
+html,
+body {
+    height: 100%;
+    font-family: $font;
+    background-color: $main-bg-color;
+}
+
+%page-layout {
+    max-width: $max-width + 80px;
+    padding: 0 40px;
+    margin: 0 auto;
+    height: auto;
+}
+
+.app-layout {
+
+    .background {
+        height: $topline-height;
+        background-color: $header-bg-color;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        @include breakpoint(tablet) {
+            height: $header-bg-height;
+        }
+    }
+
+    .wrapper {
+        @extend %page-layout;
+        position: relative;
+
+    }
+
+    .topline {
+        height: $topline-height;
+    }
+}

@@ -1,0 +1,10 @@
+.data-table-wrapper('[ngClass]'='className')
+    table.data-table
+        thead
+            tr
+                th('*ngFor'='let item of head' '[ngClass]'='item | className')
+                    .table-head-cell-wrapper
+                        span {{ item }}
+        tbody
+            tr('*ngFor'='let entry of body')
+                ng-container('[ngTemplateOutlet]'='row' '[ngTemplateOutletContext]'='{entry: entry}')

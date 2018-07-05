@@ -1,0 +1,17 @@
+app-timer
+app-data-table(
+    className='time-entries'
+    '[head]'='tableHead'
+    '[body]'='timeEntries'
+)
+    ng-template('#row'='' 'let-entry'='entry')
+        td(
+            '*ngFor'='let cell of (entry | timeEntry); index as i'
+            '[ngClass]'='tableHead[i]'
+            '[ngSwitch]'='cell'
+        )
+            .table-cell-wrapper
+                ng-container('*ngSwitchCase'="'action'")
+                    .action-button.delete
+                ng-container('*ngSwitchDefault'='')
+                    span {{ cell }}

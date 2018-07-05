@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'icomoon';
+    src: url($font-path + 'icomoon.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+%icon {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+%icon-bin:before {
+    content: '\e9ac';
+}
+
+%icon-play:before {
+    content: '\ea1c';
+}
+
+%icon-pause:before {
+    content: '\ea1d';
+}
+
+%icon-stop:before {
+    content: '\ea1e';
+}
+

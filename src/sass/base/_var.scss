@@ -1,0 +1,53 @@
+@import 'functions';
+@import 'typography';
+
+$default-color: #444;
+$link-color: #777;
+$placeholder-color: #bbb9ba;
+
+$primary-color: #fff;
+$header-bg-color: #212429;
+$main-bg-color: #f4f8f9;
+$table-header-color: #7b838a;
+
+%default-link {
+  color: $link-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+}
+
+%align-middle {
+  &:after {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+  }
+}
+
+%middle {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+%align-middle-before {
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
+}
+
+%align-bottom {
+    &:after {
+        content: '';
+        display: inline-block;
+        vertical-align: bottom;
+        height: 100%;
+    }
+}

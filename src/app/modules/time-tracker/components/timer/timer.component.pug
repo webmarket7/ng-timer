@@ -1,0 +1,30 @@
+include ../../../../../views/mixins/button.pug
+
+.timer-wrapper
+    .timer-face
+        .timer-face-digits {{ elapsed | time }}
+    .timer-controls
+        +button({
+            size: 'small',
+            type: 'stop',
+            attr: {
+                '(click)': 'recordEntry($event)'
+            }
+        })
+
+        +button({
+            attr: {
+                '(click)': 'started = !started'
+            },
+            mode: {
+                '[ngClass]': "started ? 'pause' : 'play'"
+            }
+        })
+
+        +button({
+            size: 'small',
+            type: 'reload',
+            attr: {
+                '(click)': 'resetTimer($event)'
+            }
+        })
