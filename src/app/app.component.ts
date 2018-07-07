@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from './store/app.reducers';
 import * as fromAuth from './modules/auth/store/auth.reducers';
 import * as firebase from 'firebase';
-import { firebaseConfig } from './firebase-config';
+import { firebaseConfig } from './api/firebase-config';
 import { AuthService } from './services/auth.service';
 
 
