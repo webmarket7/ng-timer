@@ -6,5 +6,5 @@
                     .table-head-cell-wrapper
                         span {{ item }}
         tbody
-            tr('*ngFor'='let entry of body')
-                ng-container('[ngTemplateOutlet]'='row' '[ngTemplateOutletContext]'='{entry: entry}')
+            tr('*ngFor'='let entry of body; index as i')
+                ng-container('[ngTemplateOutlet]'='row' '[ngTemplateOutletContext]'='{entry: entry, index: i}')

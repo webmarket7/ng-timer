@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as TimeTrackerActions from '../../storage/time-tracker.actions';
 import { ITimeEntry } from '../../../../common/interfaces';
 
 @Component({
@@ -9,9 +12,11 @@ import { ITimeEntry } from '../../../../common/interfaces';
 export class TimeTrackerComponent implements OnInit {
 
     tableHead: string[];
-    timeEntries: ITimeEntry[];
+    timeTrackerState: Observable<{timeEntries: ITimeEntry[]}>;
 
-    constructor() {
+    constructor(
+        private store: Store<any>
+    ) {
         this.tableHead = [
             'task',
             'start date',
@@ -20,25 +25,13 @@ export class TimeTrackerComponent implements OnInit {
             'action'
         ];
 
-        this.timeEntries = [
-            {
-                id: 1,
-                task: 'Default task',
-                startDate: 1530778148447,
-                endDate: 530778171633,
-                duration: 60000
-            },
-            {
-                id: 2,
-                task: 'Default task 2',
-                startDate: 1530778148447,
-                endDate: 530778171633,
-                duration: 60000
-            },
-        ];
+        this.timeTrackerState = this.store.select('timeTracker');
     }
 
     ngOnInit() {
     }
 
+    deleteEntry(index: number) {
+        this.store.dispatch(new TimeTrackerActions.DeleteTimeEntry(index));
+    }
 }

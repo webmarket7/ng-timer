@@ -14,7 +14,6 @@ export class TimeEntryPipe implements PipeTransform {
     ) {}
 
     transform(timeEntry: ITimeEntry, args?: any): string[] {
-        console.log('Entry', timeEntry);
 
         return [
             timeEntry.task,

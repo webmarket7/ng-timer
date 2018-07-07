@@ -2,9 +2,9 @@ app-timer
 app-data-table(
     className='time-entries'
     '[head]'='tableHead'
-    '[body]'='timeEntries'
+    '[body]'='(timeTrackerState | async).timeEntries'
 )
-    ng-template('#row'='' 'let-entry'='entry')
+    ng-template('#row'='' 'let-entry'='entry' 'let-index'='index')
         td(
             '*ngFor'='let cell of (entry | timeEntry); index as i'
             '[ngClass]'='tableHead[i]'
@@ -12,6 +12,6 @@ app-data-table(
         )
             .table-cell-wrapper
                 ng-container('*ngSwitchCase'="'action'")
-                    .action-button.delete
+                    .action-button.delete('(click)'='deleteEntry(index)')
                 ng-container('*ngSwitchDefault'='')
                     span {{ cell }}

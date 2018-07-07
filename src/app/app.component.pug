@@ -2,5 +2,10 @@
     .background
     .wrapper
         .topline
-            .topline-section
+            .topline__section
+                ng-container('*ngIf'='authService.isAuthenticated(); else auth')
+                    a.menu__item('(click)'='onLogOut()') Logout
+                ng-template('#auth'='')
+                    a.menu__item('[routerLink]'="['/sign-up']") Sign up
+                    a.menu__item('[routerLink]'="['/sign-in']") Sign in
         router-outlet

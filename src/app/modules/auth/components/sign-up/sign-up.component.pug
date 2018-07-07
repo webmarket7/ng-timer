@@ -1,0 +1,19 @@
+form.form( '(ngSubmit)'='onSignUp(f)' '#f'='ngForm')
+    .form__layout
+        .form__group
+            label.form__label(for='email') Email
+            input.form__control(
+                type='email'
+                id='email'
+                name='email'
+                'ngModel'=''
+            )
+        .form__group
+            label.form__label(for='password') Password
+            input.form__control(
+                type='password'
+                id='password'
+                name='password'
+                'ngModel'=''
+            )
+        button.form__button(type='submit') Sign up

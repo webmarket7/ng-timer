@@ -6,4 +6,7 @@ $img-path: './assets/img/';
 @import 'sass/base/reset';
 @import 'sass/layout';
 
+@import 'sass/partials/auth';
 @import 'sass/partials/data-table';
+@import 'sass/partials/time-tracker';
+@import 'sass/partials/topline';

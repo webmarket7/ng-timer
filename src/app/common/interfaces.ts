@@ -1,5 +1,5 @@
 export interface ITimeEntry {
-    id: 1;
+    id: number;
     task: string;
     startDate: number;
     endDate: number;

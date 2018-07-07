@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe} from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedComponentsModule } from '../../shared-components/shared-components.module';
 import { TimerComponent } from './components/timer/timer.component';

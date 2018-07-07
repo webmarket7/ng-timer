@@ -14,7 +14,7 @@ include ../../../../../views/mixins/button.pug
 
         +button({
             attr: {
-                '(click)': 'started = !started'
+                '(click)': 'toggleTimer($event)'
             },
             mode: {
                 '[ngClass]': "started ? 'pause' : 'play'"
