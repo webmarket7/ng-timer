@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import { AuthService } from './services/auth.service';
+import { firebaseConfig } from './firebase-config';
 
 @Component({
     selector: 'app-root',
@@ -14,14 +15,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        firebase.initializeApp({
-            apiKey: 'AIzaSyC-LOoyLVfWkT8mEKNrPbLl6HC4RHiryA8',
-            authDomain: 'ng-timer.firebaseapp.com',
-            databaseURL: 'https://ng-timer.firebaseio.com',
-            projectId: 'ng-timer',
-            storageBucket: 'ng-timer.appspot.com',
-            messagingSenderId: '55249725552'
-        });
+        firebase.initializeApp(firebaseConfig);
     }
 
     onLogOut() {
