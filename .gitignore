@@ -39,4 +39,4 @@ testem.log
 Thumbs.db
 
 # API Config Files
-/src/app/firebase.config.ts
+firebase.config.ts
