@@ -2,11 +2,12 @@ import { Component, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { timeInterval } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import * as TimeTrackerActions from '../../storage/time-tracker.actions';
 import { getTimeStamp } from '../../../../common/helpers';
 import { GlobalServiceService } from '../../../../services/global-service.service';
 import { entries } from 'lodash';
 import { ITimeEntry } from '../../../../common/interfaces';
+import * as TimeTrackerActions from '../../store/time-tracker.actions';
+import * as fromApp from '../../../../store/app.reducers';
 
 @Component({
     selector: 'app-timer',
@@ -22,7 +23,7 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
     elapsed: number;
 
     constructor(
-        private store: Store<any>,
+        private store: Store<fromApp.AppState>,
         private globalService: GlobalServiceService
     ) {
         this.started = false;

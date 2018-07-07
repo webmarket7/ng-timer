@@ -1,20 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as firebase from 'firebase';
+import { Store } from '@ngrx/store';
 import 'firebase/auth';
+import * as firebase from 'firebase';
+import * as fromApp from '../store/app.reducers';
+import * as AuthActions from '../modules/auth/store/auth.actions';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    token: string;
-
-    constructor(private router: Router) {
-    }
+    constructor(
+        private router: Router,
+        private store: Store<fromApp.AppState>
+    ) {}
 
     signUpUser(email: string, password: string) {
         firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(response => {
+                this.store.dispatch(new AuthActions.SignUp());
+
+                return firebase.auth().currentUser.getIdToken()
+                    .then((token: string) => {
+                        this.store.dispatch(new AuthActions.SetToken(token));
+                    });
+            })
             .catch((error) => {
                     console.error(error);
                 }
@@ -24,11 +35,12 @@ export class AuthService {
     signInUser(email: string, password: string) {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((response) => {
+                this.store.dispatch(new AuthActions.SignIn());
                 this.router.navigate(['/time-tracker']);
 
                 return firebase.auth().currentUser.getIdToken()
                     .then((token: string) => {
-                        this.token = token;
+                        this.store.dispatch(new AuthActions.SetToken(token));
                     });
             })
             .catch((error) => {
@@ -37,28 +49,9 @@ export class AuthService {
             );
     }
 
-    getCurrentToken() {
-        const user = firebase.auth().currentUser;
-
-        if (user) {
-            firebase.auth().currentUser.getIdToken()
-                .then((token: string) => {
-                    this.token = token;
-                });
-        } else {
-            console.error('You are not signed in!');
-        }
-
-        return this.token;
-    }
-
-    isAuthenticated() {
-        return this.token != null;
-    }
-
     logout() {
         firebase.auth().signOut();
-        this.token = null;
+        this.store.dispatch(new AuthActions.LogOut());
 
         this.router.navigate(['/sign-in']);
     }

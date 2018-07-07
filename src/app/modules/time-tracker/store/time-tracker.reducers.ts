@@ -1,21 +1,18 @@
-import { Action } from '@ngrx/store';
 import * as TimeTrackerActions from './time-tracker.actions';
+import { ITimeEntry } from '../../../common/interfaces';
 
-const initialState = {
+export interface State {
+    timeEntries: ITimeEntry[];
+}
+
+const initialState: State = {
     timeEntries: [
         {
             id: 1,
             task: 'Default task',
-            startDate: 1530778148447,
-            endDate: 1530792306534,
-            duration: (1530792306534 - 1530778148447) / 1000
-        },
-        {
-            id: 2,
-            task: 'Default task 2',
-            startDate: 1530778148447,
-            endDate: 1530792306534,
-            duration: (1530792306534 - 1530778148447) / 1000
+            startDate: 0,
+            endDate: 0,
+            duration: 0
         }
     ]
 };

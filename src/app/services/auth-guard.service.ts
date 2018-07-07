@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from './auth.service';
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducers';
+import * as fromAuth from '../modules/auth/store/auth.reducers';
 
 @Injectable({
     providedIn: 'root'
@@ -9,17 +11,20 @@ import { AuthService } from './auth.service';
 export class AuthGuardService implements CanActivate {
 
     constructor(
-        private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private store: Store<fromApp.AppState>
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const isAuthenticated = this.authService.isAuthenticated();
+        return this.store.select('auth')
+            .pipe(map((authState: fromAuth.State ) => {
+                const isAuthenticated: boolean = authState.authenticated;
 
-        if (!isAuthenticated) {
-            this.router.navigate(['/sign-in']);
-        }
+                if (!isAuthenticated) {
+                    this.router.navigate(['/sign-in']);
+                }
 
-        return isAuthenticated;
+                return isAuthenticated;
+            }));
     }
 }

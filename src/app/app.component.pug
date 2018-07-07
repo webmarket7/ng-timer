@@ -3,7 +3,7 @@
     .wrapper
         .topline
             .topline__section
-                ng-container('*ngIf'='authService.isAuthenticated(); else auth')
+                ng-container('*ngIf'='(authState | async).authenticated; else auth')
                     a.menu__item('(click)'='onLogOut()') Logout
                 ng-template('#auth'='')
                     a.menu__item('[routerLink]'="['/sign-up']") Sign up

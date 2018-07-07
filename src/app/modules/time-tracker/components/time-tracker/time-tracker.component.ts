@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as TimeTrackerActions from '../../storage/time-tracker.actions';
 import { ITimeEntry } from '../../../../common/interfaces';
+import * as TimeTrackerActions from '../../store/time-tracker.actions';
+import * as fromApp from '../../../../store/app.reducers';
 
 @Component({
     selector: 'app-time-tracker',
@@ -15,7 +16,7 @@ export class TimeTrackerComponent implements OnInit {
     timeTrackerState: Observable<{timeEntries: ITimeEntry[]}>;
 
     constructor(
-        private store: Store<any>
+        private store: Store<fromApp.AppState>
     ) {
         this.tableHead = [
             'task',

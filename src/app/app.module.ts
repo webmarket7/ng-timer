@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RoutingModule } from './routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/app.reducers';
 import { SharedComponentsModule } from './shared-components/shared-components.module';
 import { AppComponent } from './app.component';
-import { timeTrackerReducer } from './modules/time-tracker/storage/time-tracker.reducers';
+import { AuthInterceptor } from './modules/auth/auth.interceptor';
 
 @NgModule({
     declarations: [
@@ -16,9 +17,11 @@ import { timeTrackerReducer } from './modules/time-tracker/storage/time-tracker.
         RoutingModule,
         HttpClientModule,
         SharedComponentsModule,
-        StoreModule.forRoot({timeTracker: timeTrackerReducer})
+        StoreModule.forRoot(reducers)
     ],
-    providers: [],
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    ],
     bootstrap: [
         AppComponent
     ]
