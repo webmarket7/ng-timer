@@ -1,13 +1,9 @@
 import { Component, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { timeInterval } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { TimeEntriesService } from '../../services/time-entries.service';
 import { getTimeStamp } from '../../../../common/helpers';
-import { GlobalServiceService } from '../../../../services/global-service.service';
 import { entries } from 'lodash';
-import { ITimeEntry } from '../../../../common/interfaces';
-import * as TimeTrackerActions from '../../store/time-tracker.actions';
-import * as fromApp from '../../../../store/app.reducers';
 
 @Component({
     selector: 'app-timer',
@@ -23,21 +19,13 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
     elapsed: number;
 
     constructor(
-        private store: Store<fromApp.AppState>,
-        private globalService: GlobalServiceService
+        private timeEntriesService: TimeEntriesService
     ) {
         this.started = false;
         this.elapsed = 0;
     }
 
     ngOnInit() {
-        this.globalService.getEntries()
-            .subscribe(
-                (timeEntries: ITimeEntry[]) => {
-                    this.store.dispatch(new TimeTrackerActions.UpdateTimeEntries(timeEntries));
-                },
-                (error) => console.error(error)
-            );
     }
 
     ngAfterViewInit() {
@@ -67,28 +55,19 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     recordEntry(event) {
-        event.stopPropagation();
-
         if (this.started) {
             this.started = false;
-
             this.endDate = getTimeStamp();
 
             const timeEntry = {
-                id: 1,
-                task: 'Default name',
                 startDate: this.startDate,
                 endDate: this.endDate,
                 duration: this.elapsed
             };
 
-            this.globalService.storeEntry(timeEntry)
-                .subscribe(
-                    (response) => console.log('Response', response),
-                    (error) => console.error('Error', error)
-                    );
+            this.timeEntriesService.addTimeEntry(timeEntry);
 
-            this.store.dispatch(new TimeTrackerActions.AddTimeEntry(timeEntry));
+            this.elapsed = 0;
         }
     }
 

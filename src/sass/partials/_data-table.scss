@@ -110,16 +110,13 @@ $delete-icon-color: #e9563d;
 %time-entries {
     th,
     td {
-        &.task {
-            width: 40%;
-        }
-
         &.start_date,
-        &.end_date {
-            width: 20%;
+        &.end_date,
+        &.duration,
+        &.action {
+            width: 30%;
         }
 
-        &.duration,
         &.action {
             width: 10%;
         }

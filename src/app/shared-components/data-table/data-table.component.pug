@@ -1,10 +1,17 @@
-.data-table-wrapper('[ngClass]'='className')
-    table.data-table
-        thead
-            tr
-                th('*ngFor'='let item of head' '[ngClass]'='item | className')
-                    .table-head-cell-wrapper
-                        span {{ item }}
-        tbody
-            tr('*ngFor'='let entry of body; index as i')
-                ng-container('[ngTemplateOutlet]'='row' '[ngTemplateOutletContext]'='{entry: entry, index: i}')
+ng-container('*ngIf'='!isLoading; else spinner')
+    .data-table-wrapper('[ngClass]'='className')
+        table.data-table
+            thead
+                tr
+                    th('*ngFor'='let item of head' '[ngClass]'='item | className')
+                        .table-head-cell-wrapper
+                            span {{ item }}
+            tbody([@.disabled]='animationsDisabled')
+                tr(
+                    '*ngFor'='let entry of body; index as i; trackBy: trackByFn'
+                    '[@entry]'=''
+                )
+                    ng-container('[ngTemplateOutlet]'='row' '[ngTemplateOutletContext]'='{entry: entry, index: i}')
+
+ng-template('#spinner'='')
+    .spinner

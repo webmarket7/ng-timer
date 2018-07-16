@@ -16,7 +16,6 @@ export class TimeEntryPipe implements PipeTransform {
     transform(timeEntry: ITimeEntry, args?: any): string[] {
 
         return [
-            timeEntry.task,
             this.datePipe.transform(timeEntry.startDate, 'shortTime'),
             this.datePipe.transform(timeEntry.endDate, 'shortTime'),
             this.timePipe.transform(timeEntry.duration),

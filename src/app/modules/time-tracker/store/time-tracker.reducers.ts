@@ -2,23 +2,41 @@ import * as TimeTrackerActions from './time-tracker.actions';
 import { ITimeEntry } from '../../../common/interfaces';
 
 export interface State {
+    loading: boolean;
+    failed: boolean;
     timeEntries: ITimeEntry[];
 }
 
 const initialState: State = {
-    timeEntries: [
-        {
-            id: 1,
-            task: 'Default task',
-            startDate: 0,
-            endDate: 0,
-            duration: 0
-        }
-    ]
+    loading: false,
+    failed: false,
+    timeEntries: []
 };
 
-export function timeTrackerReducer(state = initialState, action: TimeTrackerActions.TimeTrackerActions) {
+export function timeTrackerReducer(state: State = initialState, action: TimeTrackerActions.TimeTrackerActions) {
     switch (action.type) {
+
+        case TimeTrackerActions.LOAD:
+            return {
+                ...state,
+                loading: true
+            };
+
+        case TimeTrackerActions.LOAD_SUCCESS:
+            return {
+                ...state,
+                timeEntries: action.payload,
+                loading: false,
+                failed: false
+            };
+
+        case TimeTrackerActions.LOAD_FAILURE:
+            return {
+                ...state,
+                timeEntries: [],
+                loading: false,
+                failed: true
+            };
 
         case TimeTrackerActions.ADD_TIME_ENTRY:
             return {
@@ -37,11 +55,6 @@ export function timeTrackerReducer(state = initialState, action: TimeTrackerActi
                 timeEntries: timeEntries
             };
         }
-
-        case TimeTrackerActions.UPDATE_TIME_ENTRIES:
-            return {
-                timeEntries: action.payload
-            };
 
         case TimeTrackerActions.DELETE_TIME_ENTRY: {
             const timeEntries = [...state.timeEntries];

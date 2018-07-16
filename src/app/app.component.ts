@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { map } from 'rxjs/operators';
 import * as fromApp from './store/app.reducers';
-import * as fromAuth from './modules/auth/store/auth.reducers';
-import * as firebase from 'firebase';
-import { firebaseConfig } from './api/firebase-config';
-import { AuthService } from './services/auth.service';
-
+import * as AuthActions from './modules/auth/store/auth.actions';
 
 @Component({
     selector: 'app-root',
@@ -15,19 +12,29 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit {
 
-    authState: Observable<fromAuth.State>;
+    isAppLoaded: boolean;
 
     constructor(
-        private store: Store<fromApp.AppState>,
-        private authService: AuthService
-    ) {}
-
-    ngOnInit() {
-        firebase.initializeApp(firebaseConfig);
-        this.authState = this.store.select('auth');
+        private afAuth: AngularFireAuth,
+        private store: Store<fromApp.AppState>
+    ) {
+        this.isAppLoaded = false;
     }
 
-    onLogOut() {
-        this.authService.logout();
+    ngOnInit() {
+        this.afAuth.authState
+            .subscribe(
+                (authData) => {
+                    if (!this.isAppLoaded) {
+                        this.isAppLoaded = true;
+                    }
+
+                    if (authData) {
+                        this.store.dispatch(new AuthActions.SignIn());
+                    } else {
+                        this.store.dispatch(new AuthActions.TryLogOut());
+                    }
+                }
+            );
     }
 }

@@ -1,0 +1,6 @@
+.topline__section
+    ng-container('*ngIf'='(authState$ | async).authenticated; else auth')
+        a.menu__item('(click)'='onLogOut()') Logout
+    ng-template('#auth'='')
+        a.menu__item('[routerLink]'="['/auth/sign-up']") Sign up
+        a.menu__item('[routerLink]'="['/auth/sign-in']") Sign in

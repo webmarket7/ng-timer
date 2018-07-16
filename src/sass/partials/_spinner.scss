@@ -1,0 +1,70 @@
+$cl-dark-blue: #2C3E50;
+$cl-blue: #3498DB;
+$cl-pink: RGBA(155, 89, 182, .5);
+
+.spinner {
+    display: block;
+    background: $cl-pink;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    position: relative;
+    margin: 40px auto;
+
+    &:after,
+    &:before {
+        content: "";
+        display: block;
+        border-radius: 50%;
+    }
+
+    &:after {
+        background: $cl_blue;
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        animation: move-left 2s ease infinite;
+    }
+    &:before {
+        background: $cl-dark-blue;
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        animation: move-right 2s ease infinite;
+    }
+}
+
+@keyframes move-left {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(20px) scale(1.2);
+    }
+    50% {
+        transform: translateX(-20px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes move-right {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-20px) scale(1.2);
+        background: $cl_blue;
+    }
+    50% {
+        transform: translateX(20px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

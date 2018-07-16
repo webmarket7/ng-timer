@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "ng-timer"
+  "defaultProject": "ng-timer",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

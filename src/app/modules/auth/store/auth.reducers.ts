@@ -1,19 +1,16 @@
 import * as AuthActions from './auth.actions';
 
-export interface State {
-    token: string;
+export interface AuthState {
     authenticated: boolean;
 }
 
-const initialState: State = {
-    token: null,
-    authenticated: false
+const initialState: AuthState = {
+    authenticated: null
 };
 
-export function authReducer(state = initialState, action: AuthActions.AuthActions) {
+export function authReducer(state: AuthState = initialState, action: AuthActions.AuthActions) {
 
     switch (action.type) {
-
         case (AuthActions.SIGN_UP):
         case (AuthActions.SIGN_IN):
             return {
@@ -24,14 +21,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         case (AuthActions.LOG_OUT):
             return {
                 ...state,
-                token: null,
                 authenticated: false
-            };
-
-        case (AuthActions.SET_TOKEN):
-            return {
-                ...state,
-                token: action.payload
             };
 
         default:

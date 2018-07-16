@@ -4,7 +4,7 @@ import { ActionReducerMap } from '@ngrx/store';
 
 export interface AppState {
     timeTracker: fromTimeTracker.State;
-    auth: fromAuth.State;
+    auth: fromAuth.AuthState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {

@@ -5,7 +5,7 @@ import { ClassNamePipe } from '../pipes/class-name.pipe';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
     ],
     declarations: [
         DataTableComponent,
