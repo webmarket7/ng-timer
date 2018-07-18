@@ -1,44 +1,75 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, interval } from 'rxjs';
-import { filter, tap, timestamp, takeUntil, timeInterval, map, mapTo, switchMap, startWith, scan } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.reducers';
+import { TimeEntriesService } from './time-entries.service';
+import { activeTimeEntry } from '../store/time-tracker.selectors';
+import * as TimeTrackerActions from '../store/time-tracker.actions';
+import { Observable, Subject, interval, Timestamp } from 'rxjs';
+import { take, map, filter, timestamp, takeUntil, switchMap, startWith, scan } from 'rxjs/operators';
 
 @Injectable()
 export class TimerService {
+    elapsed: {value: number, timestamp: number};
 
     commandsStream$: Subject<string>;
-    timer$: Observable<number>;
+    activeTimeEntry$: Observable<string>;
+    timer$: Observable<Timestamp<any>>;
 
-    constructor() {
+    constructor(
+        private store: Store<AppState>,
+        private timeEntriesService: TimeEntriesService,
+    ) {
+        this.activeTimeEntry$ = this.store.select(activeTimeEntry);
         this.commandsStream$ = new Subject();
+        this.elapsed = {
+            value: 0,
+            timestamp: 0
+        };
 
         const
-            elapsed = 0,
-            inc = acc => elapsed++,
-            start$: Observable<string> = this.commandsStream$
+            start$: Observable<void> = this.commandsStream$
                 .pipe(
                     filter(command => command === 'start'),
                     timestamp(),
-                    tap(timeStamp => console.log('Started at', timeStamp))
+                    map(value => {
+                        this.store.dispatch(new TimeTrackerActions.StartedTrackingAction({
+                                startDate: value.timestamp
+                            })
+                        );
+                    })
                 ),
-            stop$: Observable<string> = this.commandsStream$
+            stop$: Observable<void> = this.commandsStream$
                 .pipe(
                     filter(command => command === 'stop'),
                     timestamp(),
-                    tap(timeStamp => console.log('Stopped at', timeStamp))
+                    switchMap(() => {
+                        return this.activeTimeEntry$
+                            .pipe(
+                                take(1),
+                                map((key: string) => {
+                                    this.timeEntriesService.updateTimeEntry(key, {
+                                        endDate: this.elapsed.timestamp
+                                    });
+                                })
+                            );
+                    })
                 ),
             counter$: Observable<number> = interval(1000)
                 .pipe(
-                    takeUntil(stop$),
-                    timeInterval(),
-                    mapTo(inc)
+                    takeUntil(stop$)
                 );
 
         this.timer$ = start$
             .pipe(
                 switchMap(val => counter$),
-                startWith(elapsed),
-                scan((acc, curr) => curr(acc)),
-                tap(value => console.log('Value', value))
+                startWith(0),
+                scan((acc) => acc += 1000),
+                timestamp(),
+                map(value => {
+                    this.elapsed = value;
+
+                    return value;
+                })
             );
     }
 }

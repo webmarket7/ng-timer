@@ -23,3 +23,11 @@ export const isFailed = createSelector(
     }
 );
 
+export const activeTimeEntry = createSelector(
+    selectTimeTrackerState,
+    timeTracker => {
+        return timeTracker.activeTimeEntry;
+    }
+);
+
+

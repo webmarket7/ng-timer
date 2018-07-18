@@ -2,8 +2,14 @@ import { Action } from '@ngrx/store';
 import { ITimeEntry } from '../../../common/interfaces';
 
 export const LOAD = 'LOAD';
+export const STARTED_TRACKING = 'STARTED_TRACKING';
+
 export const LOAD_SUCCESS = 'LOAD_SUCCESS';
 export const LOAD_FAILURE = 'LOAD_FAILURE';
+export const ADD_TIME_ENTRY = 'ADD_TIME_ENTRY';
+export const UPDATE_TIME_ENTRY = 'UPDATE_TIME_ENTRY';
+export const DELETE_TIME_ENTRY = 'DELETE_TIME_ENTRY';
+export const SET_ACTIVE_TIME_ENTRY = 'SET_ACTIVE_TIME_ENTRY';
 
 export class LoadAction implements Action {
     readonly type = LOAD;
@@ -19,11 +25,11 @@ export class LoadFailureAction implements Action {
     readonly type = LOAD_FAILURE;
 }
 
+export class StartedTrackingAction implements Action {
+    readonly type = STARTED_TRACKING;
 
-export const ADD_TIME_ENTRY = 'ADD_TIME_ENTRY';
-export const UPDATE_TIME_ENTRY = 'UPDATE_TIME_ENTRY';
-export const UPDATE_TIME_ENTRIES = 'UPDATE_TIME_ENTRIES';
-export const DELETE_TIME_ENTRY = 'DELETE_TIME_ENTRY';
+    constructor(public payload: ITimeEntry) {}
+}
 
 export class AddTimeEntry implements Action {
     readonly type = ADD_TIME_ENTRY;
@@ -43,4 +49,17 @@ export class DeleteTimeEntry implements Action {
     constructor(public payload: number) {}
 }
 
-export type TimeTrackerActions = LoadAction | LoadSuccessAction | LoadFailureAction | AddTimeEntry | UpdateTimeEntry | DeleteTimeEntry;
+export class SetActiveTimeEntry implements Action {
+    readonly type = SET_ACTIVE_TIME_ENTRY;
+
+    constructor(public payload: string) {}
+}
+
+export type TimeTrackerActions = LoadAction |
+                                 StartedTrackingAction |
+                                 LoadSuccessAction |
+                                 LoadFailureAction |
+                                 AddTimeEntry |
+                                 SetActiveTimeEntry |
+                                 UpdateTimeEntry |
+                                 DeleteTimeEntry;

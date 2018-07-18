@@ -5,12 +5,14 @@ export interface State {
     loading: boolean;
     failed: boolean;
     timeEntries: ITimeEntry[];
+    activeTimeEntry: string;
 }
 
 const initialState: State = {
     loading: false,
     failed: false,
-    timeEntries: []
+    timeEntries: [],
+    activeTimeEntry: ''
 };
 
 export function timeTrackerReducer(state: State = initialState, action: TimeTrackerActions.TimeTrackerActions) {
@@ -43,6 +45,14 @@ export function timeTrackerReducer(state: State = initialState, action: TimeTrac
                 ...state,
                 timeEntries: [...state.timeEntries, action.payload]
             };
+
+        case TimeTrackerActions.SET_ACTIVE_TIME_ENTRY: {
+
+            return {
+                ...state,
+                activeTimeEntry: action.payload
+            };
+        }
 
         case TimeTrackerActions.UPDATE_TIME_ENTRY: {
             const timeEntry = state.timeEntries[action.payload.index],

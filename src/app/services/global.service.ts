@@ -26,6 +26,10 @@ export class GlobalService {
         return this.db.list(ref).push(item);
     }
 
+    updateListItem(ref: string, key: string, item: any): Promise<void> {
+        return this.db.list(ref).update(key, item);
+    }
+
     deleteFromList(ref: string, key: string): Promise<void> {
         return this.db.list(ref).remove(key);
     }
