@@ -1,27 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { TimerService } from '../../services/timer.service';
-import { entries } from 'lodash';
+import { Subscription, fromEvent } from 'rxjs';
+import { scan, startWith, throttleTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-timer',
     templateUrl: './timer.component.pug',
     styleUrls: ['./timer.component.scss']
 })
-export class TimerComponent {
+export class TimerComponent implements AfterViewInit {
 
-    started: boolean;
+    clickActions$: Subscription;
+    buttonState: boolean;
+
+    @ViewChild('toggleButton') toggleButton: ElementRef;
 
     constructor(
-        private timerService: TimerService
-    ) {
-        this.started = false;
-    }
+        public timerService: TimerService,
+        private cdr: ChangeDetectorRef
+    ) {}
 
-    toggleTimer(event) {
-        event.stopPropagation();
+    ngAfterViewInit() {
+        this.clickActions$ = fromEvent(this.toggleButton.nativeElement, 'click')
+            .pipe(
+                throttleTime(1000),
+                scan((acc) => !acc),
+                startWith(false)
+            )
+            .subscribe(state => {
+                this.buttonState = state;
+                this.timerService.commandsStream$.next(state ? 'start' : 'stop');
+            });
 
-        this.started = !this.started;
-
-        this.timerService.commandsStream$.next(this.started ? 'start' : 'stop');
+        this.cdr.detectChanges();
     }
 }

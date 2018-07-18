@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTableComponent } from './data-table/data-table.component';
 import { ClassNamePipe } from '../pipes/class-name.pipe';
+import { DebouncePipe } from '../pipes/debounce.pipe';
 
 @NgModule({
     imports: [
@@ -9,11 +10,13 @@ import { ClassNamePipe } from '../pipes/class-name.pipe';
     ],
     declarations: [
         DataTableComponent,
-        ClassNamePipe
+        ClassNamePipe,
+        DebouncePipe
     ],
     exports: [
         DataTableComponent,
-        ClassNamePipe
+        ClassNamePipe,
+        DebouncePipe
     ],
     providers: []
 })

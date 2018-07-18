@@ -19,8 +19,8 @@ export class TimerService {
         private store: Store<AppState>,
         private timeEntriesService: TimeEntriesService,
     ) {
-        this.activeTimeEntry$ = this.store.select(activeTimeEntry);
         this.commandsStream$ = new Subject();
+        this.activeTimeEntry$ = this.store.select(activeTimeEntry);
         this.elapsed = {
             value: 0,
             timestamp: 0
