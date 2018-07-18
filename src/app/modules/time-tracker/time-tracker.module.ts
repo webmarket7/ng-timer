@@ -9,6 +9,7 @@ import { TimePipe } from './pipes/time.pipe';
 import { TimeTrackerComponent } from './components/time-tracker/time-tracker.component';
 import { TimeEntryPipe } from './pipes/time-entry.pipe';
 import { TimeEntriesService } from './services/time-entries.service';
+import { TimerService } from './services/timer.service';
 
 import { TimeTrackerEffects } from './store/time-tracker.effects';
 import * as fromTimeTracker from './store/time-tracker.reducers';
@@ -37,6 +38,7 @@ const routes: Routes = [
     ],
     providers: [
         TimeEntriesService,
+        TimerService,
         DatePipe,
         TimePipe
     ],
