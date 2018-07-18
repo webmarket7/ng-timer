@@ -5,51 +5,56 @@ $button-color: #F26C53;
 
 $timer-height: 225px;
 
-.timer-wrapper {
+.timer {
     height: $timer-height;
     background-color: $primary-color;
     border-radius: 6px;
-}
 
-.timer-face {
-    width: 500px;
-    height: 120px;
-    padding: 20px;
-    margin: 0 auto;
+    &_face {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        margin: 0 auto;
+    }
 
-    &-digits {
+    &_digits {
         color: $secondary-color;
+        min-width: 470px;
         font-family: 'Nova Square', sans-serif;
         font-size: 90px;
         padding: 0 15px;
     }
 }
 
-.timer-controls {
-    width: 300px;
-    margin: 0 auto;
-}
-
 .button {
-    display: inline-block;
+    display: block;
     width: 80px;
     height: 80px;
     position: relative;
     background-color: $button-color;
     border-radius: 50%;
-    margin: 0 50px 0 0;
-    vertical-align: middle;
     cursor: pointer;
-
-    &:last-child {
-        margin: 0;
-    }
 
     &.small {
         width: 50px;
         height: 50px;
         background-color: transparent;
         border: 5px solid $dark-primary-color;
+    }
+
+    &.spinning {
+        &:before {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border-top: 2px solid $secondary-color;
+            border-right: 2px solid transparent;
+            animation: spinner .6s linear infinite;
+        }
     }
 
     &-icon {
@@ -64,64 +69,25 @@ $timer-height: 225px;
         border-color: transparent transparent transparent $secondary-color;
         transition: 100ms all ease;
 
-        &.play {
+        &.start {
             border-style: solid;
             border-width: 20px 0 20px 40px;
         }
 
-        &.pause {
-            border-style: double;
-            border-width: 0 0 0 30px;
-        }
-
         &.stop {
-            top: 10px;
-            left: 10px;
-            width: 20px;
-            height: 20px;
+            left: 20px;
+            width: 40px;
+            border-radius: 6px;
             background-color: $secondary-color;
-            border-radius: 3px;
-        }
-
-        &.reload {
-            top: 8px;
-            left: 8px;
-            height: 24px;
-            width: 24px;
-            padding: 2px;
-
-            &:before,
-            &:after {
-                content: '';
-                display: block;
-            }
-
-            &:before {
-                border-color: transparent $secondary-color $secondary-color $secondary-color;
-                border-radius: 50%;
-                border-style: solid;
-                border-width: 3px;
-                height: 16px;
-                width: 16px;
-                -webkit-transform: rotate(45deg);
-                transform: rotate(45deg);
-
-            }
-
-            &:after {
-                border-color: transparent transparent transparent $secondary-color;
-                border-style: solid;
-                border-width: 4px 0 4px 7px;
-                height: 0;
-                position: absolute;
-                top: 0;
-                left: 50%;
-                width: 0;
-            }
         }
 
         &:hover {
             border-color: transparent transparent transparent $secondary-color;
         }
   }
+}
+
+
+@keyframes spinner {
+    to {transform: rotate(360deg);}
 }
