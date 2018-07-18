@@ -12,4 +12,4 @@ include ../../../../../views/mixins/button.pug
                     '[ngClass]': "started ? 'stop' : 'start'"
                 }
             })
-        .timer_digits {{ timerService.timer$ | async | time }}
+        .timer_digits {{ (timerService.timer$ | async).value | time }}

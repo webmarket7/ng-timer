@@ -10,7 +10,7 @@ export class TimePipe implements PipeTransform {
     }
 
     transform(value: number, args?: any): string {
-        const TIME = new Date(value * 1000);
+        const TIME = new Date(Math.round(value));
         const HOURS = TimePipe.format(TIME.getUTCHours());
         const MINUTES = TimePipe.format(TIME.getUTCMinutes());
         const SECONDS = TimePipe.format(TIME.getUTCSeconds());

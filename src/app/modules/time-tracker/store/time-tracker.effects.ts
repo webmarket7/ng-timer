@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Reference } from 'angularfire2/firestore';
 import { Actions, Effect } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
-import { TimeEntriesService } from '../services/time-entries.service';
+import { of, from } from 'rxjs';
+import { switchMap, tap, map, catchError } from 'rxjs/operators';
 import { ITimeEntry } from '../../../common/interfaces';
+import { TimeEntriesService } from '../services/time-entries.service';
 import * as TimeTrackerActions from './time-tracker.actions';
 
 @Injectable()
@@ -30,4 +31,23 @@ export class TimeTrackerEffects {
                     );
             })
         );
+
+    @Effect()
+    startTracking$ = this.actions$
+        .ofType(TimeTrackerActions.STARTED_TRACKING)
+        .pipe(
+            switchMap((action: TimeTrackerActions.StartedTrackingAction) => {
+
+                return from(this.timeEntriesService.addTimeEntry(action.payload))
+                    .pipe(
+                          map((ref: any) => {
+                            return {type: TimeTrackerActions.SET_ACTIVE_TIME_ENTRY, payload: ref.key};
+                        }),
+                        catchError((error) => {
+                            return of({type: TimeTrackerActions.LOAD_FAILURE});
+                        })
+                    );
+            })
+        );
+
 }

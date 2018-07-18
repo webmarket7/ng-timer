@@ -21,14 +21,28 @@ export class TimeEntriesService {
         return this.globalService.getListObservable(this.ref);
     }
 
-    addTimeEntry(timeEntry: ITimeEntry): void {
-        this.globalService.appendToList(this.ref, timeEntry)
+    addTimeEntry(timeEntry: ITimeEntry): PromiseLike<void> {
+        return this.globalService.appendToList(this.ref, timeEntry)
             .then(
-                () => {
-                    console.log('Time entry is successfully added');
+                (response) => {
+                    console.log('Time entry is successfully added', response);
+
+                    return response;
                 },
                 error => {
                     console.error('Error occured while trying to add time entry:', error);
+                }
+            );
+    }
+
+    updateTimeEntry(key: string, timeEntry: ITimeEntry): void {
+        this.globalService.updateListItem(this.ref, key, timeEntry)
+            .then(
+                () => {
+                    console.log('Time entry is successfully updated');
+                },
+                error => {
+                    console.error('Error occured while trying to update time entry:', error);
                 }
             );
     }

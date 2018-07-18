@@ -14,13 +14,15 @@ export class TimeEntryPipe implements PipeTransform {
     ) {}
 
     transform(timeEntry: ITimeEntry, args?: any): string[] {
+        const
+            startDate = timeEntry.startDate,
+            endDate = timeEntry.endDate;
 
         return [
-            this.datePipe.transform(timeEntry.startDate, 'shortTime'),
-            this.datePipe.transform(timeEntry.endDate, 'shortTime'),
-            this.timePipe.transform(timeEntry.duration),
+            startDate ? this.datePipe.transform(startDate, 'mediumTime') : 'N/D',
+            endDate ? this.datePipe.transform(endDate, 'mediumTime') : 'Tracking...',
+            startDate && endDate ? this.timePipe.transform(endDate - startDate) : 'Tracking...',
             'action'
         ];
     }
-
 }
