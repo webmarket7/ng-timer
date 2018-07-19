@@ -3,6 +3,7 @@ import { ITimeEntry } from '../../../common/interfaces';
 
 export const LOAD = 'LOAD';
 export const STARTED_TRACKING = 'STARTED_TRACKING';
+export const STOPPED_TRACKING = 'STOPPED_TRACKING';
 
 export const LOAD_SUCCESS = 'LOAD_SUCCESS';
 export const LOAD_FAILURE = 'LOAD_FAILURE';
@@ -27,6 +28,12 @@ export class LoadFailureAction implements Action {
 
 export class StartedTrackingAction implements Action {
     readonly type = STARTED_TRACKING;
+
+    constructor(public payload: ITimeEntry) {}
+}
+
+export class StoppedTrackingAction implements Action {
+    readonly type = STOPPED_TRACKING;
 
     constructor(public payload: ITimeEntry) {}
 }
@@ -57,6 +64,7 @@ export class SetActiveTimeEntry implements Action {
 
 export type TimeTrackerActions = LoadAction |
                                  StartedTrackingAction |
+                                 StoppedTrackingAction |
                                  LoadSuccessAction |
                                  LoadFailureAction |
                                  AddTimeEntry |

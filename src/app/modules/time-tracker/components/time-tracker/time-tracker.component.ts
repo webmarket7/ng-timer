@@ -4,7 +4,7 @@ import { ITimeEntry } from '../../../../common/interfaces';
 import { TimeEntriesService } from '../../services/time-entries.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store/app.reducers';
-import { isLoading, timeEntries } from '../../store/time-tracker.selectors';
+import { isLoading, timeEntries, activeTimeEntry } from '../../store/time-tracker.selectors';
 import * as TimeTrackerActions from '../../store/time-tracker.actions';
 
 @Component({
@@ -17,6 +17,7 @@ export class TimeTrackerComponent implements OnInit {
     tableHead: string[];
     isLoading$: Observable<boolean>;
     timeEntries$: Observable<{timeEntries: ITimeEntry[]}>;
+    activeTimeEntry$: Observable<string>;
 
     constructor(
         private store: Store<AppState>,
@@ -31,6 +32,7 @@ export class TimeTrackerComponent implements OnInit {
 
         this.isLoading$ = store.select(isLoading);
         this.timeEntries$ = this.store.select(timeEntries);
+        this.activeTimeEntry$ = this.store.select(activeTimeEntry);
     }
 
     ngOnInit() {

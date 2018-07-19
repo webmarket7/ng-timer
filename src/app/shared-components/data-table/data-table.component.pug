@@ -7,8 +7,9 @@ ng-container('*ngIf'='!isLoading; else spinner')
                         .table-head-cell-wrapper
                             span {{ item }}
             tbody([@.disabled]='animationsDisabled')
-                tr(
+                tr.data-table_row(
                     '*ngFor'='let entry of body; index as i; trackBy: trackByFn'
+                    '[ngClass]'='{active: activeEntry === entry.key}'
                     '[@entry]'=''
                 )
                     ng-container('[ngTemplateOutlet]'='row' '[ngTemplateOutletContext]'='{entry: entry, index: i}')

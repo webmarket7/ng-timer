@@ -4,12 +4,7 @@ include ../../../../../views/mixins/button.pug
     .timer_face
         .timer_controls
             +button({
-                attr: {
-                    '#toggleButton': '',
-                    '[ngClass]': '{spinning: buttonState}'
-                },
-                mode: {
-                    '[ngClass]': "buttonState ? 'stop' : 'start'"
-                }
+                attr: {'#toggleButton': ''},
+                mode: {'[ngClass]': "(clickActions$ | async) || 'stopped'"}
             })
-        .timer_digits {{ (timerService.timer$ | async).value | time }}
+        .timer_digits {{ (timerService.timer$ | async)?.value | time }}

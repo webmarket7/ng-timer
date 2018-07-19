@@ -35,8 +35,8 @@ export class TimeEntriesService {
             );
     }
 
-    updateTimeEntry(key: string, timeEntry: ITimeEntry): void {
-        this.globalService.updateListItem(this.ref, key, timeEntry)
+    updateTimeEntry(key: string, timeEntry: ITimeEntry): PromiseLike<void> {
+        return this.globalService.updateListItem(this.ref, key, timeEntry)
             .then(
                 () => {
                     console.log('Time entry is successfully updated');

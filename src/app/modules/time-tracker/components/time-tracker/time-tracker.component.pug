@@ -4,6 +4,7 @@ app-data-table(
     '[isLoading]'='(isLoading$ | async)'
     '[head]'='tableHead'
     '[body]'='(timeEntries$ | async)'
+    '[activeEntry]'='(activeTimeEntry$ | async)'
 )
     ng-template('#row'='' 'let-entry'='entry' 'let-index'='index')
         td(

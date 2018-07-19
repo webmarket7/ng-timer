@@ -9,8 +9,8 @@ import { take, map, filter, timestamp, takeUntil, switchMap, startWith, scan } f
 
 @Injectable()
 export class TimerService {
-    elapsed: {value: number, timestamp: number};
 
+    elapsed: {value: number, timestamp: number};
     commandsStream$: Subject<string>;
     activeTimeEntry$: Observable<string>;
     timer$: Observable<Timestamp<any>>;
@@ -29,7 +29,7 @@ export class TimerService {
         const
             start$: Observable<void> = this.commandsStream$
                 .pipe(
-                    filter(command => command === 'start'),
+                    filter(command => command === 'started'),
                     timestamp(),
                     map(value => {
                         this.store.dispatch(new TimeTrackerActions.StartedTrackingAction({
@@ -40,16 +40,23 @@ export class TimerService {
                 ),
             stop$: Observable<void> = this.commandsStream$
                 .pipe(
-                    filter(command => command === 'stop'),
+                    filter(command => command === 'stopped'),
                     timestamp(),
                     switchMap(() => {
                         return this.activeTimeEntry$
                             .pipe(
                                 take(1),
                                 map((key: string) => {
-                                    this.timeEntriesService.updateTimeEntry(key, {
-                                        endDate: this.elapsed.timestamp
-                                    });
+                                    this.store.dispatch(new TimeTrackerActions.StoppedTrackingAction(
+                                        {
+                                            key,
+                                            entry: {endDate: this.elapsed.timestamp}
+                                        }
+                                    ));
+
+                                    // this.timeEntriesService.updateTimeEntry(key, {
+                                    //     endDate: this.elapsed.timestamp
+                                    // });
                                 })
                             );
                     })

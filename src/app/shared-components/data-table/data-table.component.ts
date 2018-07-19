@@ -15,6 +15,7 @@ export class DataTableComponent implements OnChanges {
     @Input() className: string;
     @Input() head: string[];
     @Input() body: any[];
+    @Input() activeEntry: string;
 
     @ContentChild('row') row: TemplateRef<any>;
 

@@ -1,6 +1,8 @@
 $button-size: 40px;
 $delete-bg-color: #fdeeeb;
 $delete-icon-color: #e9563d;
+$active-entry-color: #5fdba7;
+
 
 .data-table-wrapper {
 
@@ -16,6 +18,18 @@ $delete-icon-color: #e9563d;
 .data-table {
     width: 100%;
     table-layout: fixed;
+
+    &_row {
+        &.active {
+            .table-cell-wrapper {
+                background-color: $active-entry-color;
+
+                span {
+                    color: $primary-color;
+                }
+            }
+        }
+    }
 
     td,
     th {
