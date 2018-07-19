@@ -35,7 +35,7 @@ export class StartedTrackingAction implements Action {
 export class StoppedTrackingAction implements Action {
     readonly type = STOPPED_TRACKING;
 
-    constructor(public payload: ITimeEntry) {}
+    constructor(public payload: {key: string, entry: ITimeEntry}) {}
 }
 
 export class AddTimeEntry implements Action {

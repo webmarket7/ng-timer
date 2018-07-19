@@ -53,10 +53,6 @@ export class TimerService {
                                             entry: {endDate: this.elapsed.timestamp}
                                         }
                                     ));
-
-                                    // this.timeEntriesService.updateTimeEntry(key, {
-                                    //     endDate: this.elapsed.timestamp
-                                    // });
                                 })
                             );
                     })
