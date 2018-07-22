@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoutingModule } from './routing.module';
-import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/app.reducers';
@@ -21,13 +20,12 @@ import { TopMenuComponent } from './shared-components/top-menu/top-menu.componen
 @NgModule({
     declarations: [
         AppComponent,
-        TopMenuComponent
+        TopMenuComponent,
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         RoutingModule,
-        HttpClientModule,
         SharedComponentsModule,
         StoreModule.forRoot(reducers),
         AngularFireModule.initializeApp(firebaseConfig),

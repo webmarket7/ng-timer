@@ -1,0 +1,20 @@
+.timer {
+    background-color: $color-4;
+    border-radius: 6px;
+
+    &_face {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        margin: 0 auto;
+    }
+
+    &_digits {
+        color: $color-3;
+        min-width: 470px;
+        font-family: 'Nova Square', sans-serif;
+        font-size: 90px;
+        padding: 0 15px;
+    }
+}

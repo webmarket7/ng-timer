@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { map } from 'rxjs/operators';
 import * as fromApp from './store/app.reducers';
 import * as AuthActions from './modules/auth/store/auth.actions';
 
@@ -13,6 +12,8 @@ import * as AuthActions from './modules/auth/store/auth.actions';
 export class AppComponent implements OnInit {
 
     isAppLoaded: boolean;
+
+    @ViewChild('popupContainer', {read: ViewContainerRef}) popupContainer;
 
     constructor(
         private afAuth: AngularFireAuth,

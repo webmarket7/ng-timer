@@ -1,6 +1,4 @@
 $button-size: 40px;
-$delete-bg-color: #fdeeeb;
-$delete-icon-color: #e9563d;
 
 .data-table-wrapper {
 
@@ -16,6 +14,18 @@ $delete-icon-color: #e9563d;
 .data-table {
     width: 100%;
     table-layout: fixed;
+
+    &_row {
+        &.active {
+            .table-cell-wrapper {
+                background-color: $color-13;
+
+                span {
+                    color: $color-3;
+                }
+            }
+        }
+    }
 
     td,
     th {
@@ -41,7 +51,7 @@ $delete-icon-color: #e9563d;
         }
 
         span {
-            color: $table-header-color;
+            color: $color-10;
             text-transform: uppercase;
         }
     }
@@ -53,7 +63,7 @@ $delete-icon-color: #e9563d;
 
         .table-cell-wrapper {
             @extend %align-middle;
-            background-color: $primary-color;
+            background-color: $color-3;
             width: 100%;
             height: 70px;
             padding: 0 15px;
@@ -69,20 +79,20 @@ $delete-icon-color: #e9563d;
                     @extend %icon-bin;
                     @extend %align-middle;
                     text-align: center;
-                    background-color: $delete-bg-color;
+                    background-color: $color-11;
                     border-radius: 6px;
 
                     &:before {
                         @extend %middle;
-                        color: $delete-icon-color;
+                        color: $color-12;
                         font-size: 18px;
                     }
 
                     &:hover {
-                        background-color: $delete-icon-color;
+                        background-color: $color-12;
 
                         &:before {
-                            color: $delete-bg-color;
+                            color: $color-11;
                         }
                     }
                 }
@@ -90,7 +100,7 @@ $delete-icon-color: #e9563d;
 
             span {
                 @extend %middle;
-                color: $default-color;
+                color: $color-5;
             }
         }
 

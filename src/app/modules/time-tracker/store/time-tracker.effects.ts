@@ -50,4 +50,24 @@ export class TimeTrackerEffects {
             })
         );
 
+    @Effect()
+    stopTracking$ = this.actions$
+        .ofType(TimeTrackerActions.STOPPED_TRACKING)
+        .pipe(
+            switchMap((action: TimeTrackerActions.StoppedTrackingAction) => {
+                const payload = action.payload;
+
+                return from(this.timeEntriesService.updateTimeEntry(payload.key, payload.entry))
+                    .pipe(
+                        map((ref: any) => {
+                            console.log('Stopped tracking', ref);
+
+                            return {type: TimeTrackerActions.SET_ACTIVE_TIME_ENTRY, payload: ''};
+                        }),
+                        catchError((error) => {
+                            return of({type: TimeTrackerActions.LOAD_FAILURE});
+                        })
+                    );
+            })
+        );
 }

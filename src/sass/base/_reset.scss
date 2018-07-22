@@ -204,7 +204,7 @@ video {
 body {
     font-family: $font;
     font-size: $font-size;
-    color: $primary-color;
+    color: $color-3;
     line-height: $line-height;
 }
 
@@ -219,7 +219,7 @@ button {
 }
 
 %placeholder-color {
-  color: $placeholder-color;
+  color: $color-7;
 }
 
 %input-reset {

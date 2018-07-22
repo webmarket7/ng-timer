@@ -1,13 +1,10 @@
-$color-background: #eaecfa;
-$color-loader: #ce4233;
-
 .preloader {
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: $color-background;
+    background-color: $color-14;
 
     &_animation {
         width: 250px;
@@ -22,7 +19,7 @@ $color-loader: #ce4233;
         font-family: helvetica, arial, sans-serif;
         text-transform: uppercase;
         font-weight: 900;
-        color: $color-loader;
+        color: $color-15;
         letter-spacing: 0.2em;
 
         &::before,
@@ -31,7 +28,7 @@ $color-loader: #ce4233;
             display: block;
             width: 15px;
             height: 15px;
-            background: $color-loader;
+            background: $color-15;
             position: absolute;
             animation: preload .7s infinite alternate ease-in-out;
         }
