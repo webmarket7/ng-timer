@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Reference } from 'angularfire2/firestore';
 import { Actions, Effect } from '@ngrx/effects';
 import { of, from } from 'rxjs';
-import { switchMap, tap, map, catchError } from 'rxjs/operators';
-import { ITimeEntry } from '../../../common/interfaces';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { ITask, ITimeEntry } from '../../../common/interfaces';
 import { TimeEntriesService } from '../services/time-entries.service';
+import { TasksService } from '../tasks.service';
 import * as TimeTrackerActions from './time-tracker.actions';
 
 @Injectable()
@@ -12,21 +12,22 @@ export class TimeTrackerEffects {
 
     constructor(
         private actions$: Actions,
-        private timeEntriesService: TimeEntriesService
+        private timeEntriesService: TimeEntriesService,
+        private tasksService: TasksService
     ) {}
 
     @Effect()
     loadTimeEntries$ = this.actions$
-        .ofType(TimeTrackerActions.LOAD)
+        .ofType(TimeTrackerActions.TE_LOAD)
         .pipe(
             switchMap(() => {
                 return this.timeEntriesService.getList()
                     .pipe(
                         map((timeEntries: ITimeEntry[]) => {
-                            return {type: TimeTrackerActions.LOAD_SUCCESS, payload: timeEntries};
+                            return {type: TimeTrackerActions.TE_LOAD_SUCCESS, payload: timeEntries};
                         }),
                         catchError((error) => {
-                            return of({type: TimeTrackerActions.LOAD_FAILURE});
+                            return of({type: TimeTrackerActions.TE_LOAD_FAILURE});
                         })
                     );
             })
@@ -44,7 +45,7 @@ export class TimeTrackerEffects {
                             return {type: TimeTrackerActions.SET_ACTIVE_TIME_ENTRY, payload: ref.key};
                         }),
                         catchError((error) => {
-                            return of({type: TimeTrackerActions.LOAD_FAILURE});
+                            return of({type: TimeTrackerActions.TE_LOAD_FAILURE});
                         })
                     );
             })
@@ -65,9 +66,37 @@ export class TimeTrackerEffects {
                             return {type: TimeTrackerActions.SET_ACTIVE_TIME_ENTRY, payload: ''};
                         }),
                         catchError((error) => {
-                            return of({type: TimeTrackerActions.LOAD_FAILURE});
+                            return of({type: TimeTrackerActions.TE_LOAD_FAILURE});
                         })
                     );
             })
         );
+
+    @Effect()
+    loadTasks$ = this.actions$
+        .ofType(TimeTrackerActions.TASKS_LOAD)
+        .pipe(
+            switchMap(() => {
+                return this.tasksService.getList()
+                    .pipe(
+                        map((tasks: ITask[]) => {
+                            return {type: TimeTrackerActions.TASKS_LOAD_SUCCESS, payload: tasks};
+                        }),
+                        catchError((error) => {
+                            return of({type: TimeTrackerActions.TASKS_LOAD_FAILURE});
+                        })
+                    );
+            })
+        );
+
+
+    @Effect({dispatch: false})
+    createTask$ = this.actions$
+        .ofType(TimeTrackerActions.CREATED_TASK)
+        .pipe(
+            switchMap((action: TimeTrackerActions.CreatedTaskAction) => {
+                return this.tasksService.addTask(action.payload);
+            })
+        );
+
 }

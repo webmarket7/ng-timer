@@ -7,6 +7,7 @@ import { ClassNamePipe } from '../pipes/class-name.pipe';
 import { DebouncePipe } from '../pipes/debounce.pipe';
 import { PopupService } from '../services/popup.service';
 import { SidePopupComponent } from './side-popup/side-popup.component';
+import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
 
 
 @NgModule({
@@ -18,8 +19,9 @@ import { SidePopupComponent } from './side-popup/side-popup.component';
     declarations: [
         DataTableComponent,
         SidePopupComponent,
+        ToggleButtonComponent,
         ClassNamePipe,
-        DebouncePipe
+        DebouncePipe,
     ],
     providers: [
         PopupService
@@ -30,6 +32,7 @@ import { SidePopupComponent } from './side-popup/side-popup.component';
     exports: [
         DataTableComponent,
         SidePopupComponent,
+        ToggleButtonComponent,
         ClassNamePipe,
         DebouncePipe
     ]

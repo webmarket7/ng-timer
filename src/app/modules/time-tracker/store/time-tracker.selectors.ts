@@ -30,4 +30,10 @@ export const activeTimeEntry = createSelector(
     }
 );
 
+export const tasks = createSelector(
+    selectTimeTrackerState,
+    timeTracker => {
+        return timeTracker.tasks;
+    }
+);
 

@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { GlobalService } from '../../../services/global.service';
 import { ITimeEntry } from '../../../common/interfaces';
-import * as TimeTrackerActions from '../store/time-tracker.actions';
-import * as fromApp from '../../../store/app.reducers';
 
 @Injectable()
 export class TimeEntriesService {

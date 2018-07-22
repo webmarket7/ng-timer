@@ -4,7 +4,7 @@ ng-container('*ngIf'='!isLoading; else spinner')
             thead
                 tr
                     th('*ngFor'='let item of head' '[ngClass]'='item | className')
-                        .table-head-cell-wrapper
+                        .table-head-cell-wrapper('*ngIf'='!hideHead')
                             span {{ item }}
             tbody([@.disabled]='animationsDisabled')
                 tr.data-table_row(

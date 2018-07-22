@@ -3,8 +3,33 @@ include ../../../../../views/mixins/button.pug
 .instrument-panel
     +button({
         type: 'rectangular standalone red',
-        text: 'create task',
+        text: 'add task',
         attr: {
             '(click)': 'openCreateTaskPopup()'
         }
     })
+
+app-data-table(
+    className='tasks'
+    '[isLoading]'='(isLoading$ | async)'
+    '[head]'='tableHead'
+    '[hideHead]'='true'
+    '[body]'='(tasks$ | async)'
+)
+    ng-template('#row'='' 'let-entry'='entry' 'let-index'='index')
+        td(
+            '*ngFor'='let cell of (entry | task: {timer: (timerService.timer$ | async).value, activeTask: "-LI1oG6f6Z7vfh7vFbK_"}); index as i'
+            '[ngClass]'='tableHead[i]'
+            '[ngSwitch]'='cell'
+        )
+            .table-cell-wrapper
+                ng-container('*ngSwitchCase'="'toggle'")
+                    app-toggle-button(
+                        buttonType='round small red inline'
+                        '[service]'='timerService'
+                        '[taskKey]'='entry.key'
+                    )
+                ng-container('*ngSwitchCase'="'action'")
+                    .action-button.delete('(click)'='deleteEntry(entry)')
+                ng-container('*ngSwitchDefault'='')
+                    span {{ cell }}

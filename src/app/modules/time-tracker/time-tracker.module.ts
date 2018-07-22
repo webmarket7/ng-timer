@@ -19,6 +19,7 @@ import { TimeEntriesComponent } from './components/time-entries/time-entries.com
 
 import { TimePipe } from './pipes/time.pipe';
 import { TimeEntryPipe } from './pipes/time-entry.pipe';
+import { TaskPipe } from './pipes/task.pipe';
 
 import { TimeTrackerEffects } from './store/time-tracker.effects';
 import * as fromTimeTracker from './store/time-tracker.reducers';
@@ -48,7 +49,8 @@ const routes: Routes = [
         TasksComponent,
         TaskFormComponent,
         TimePipe,
-        TimeEntryPipe
+        TimeEntryPipe,
+        TaskPipe
     ],
     providers: [
         TimeEntriesService,

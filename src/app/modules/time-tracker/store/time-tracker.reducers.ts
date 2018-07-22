@@ -1,30 +1,32 @@
 import * as TimeTrackerActions from './time-tracker.actions';
-import { ITimeEntry } from '../../../common/interfaces';
+import { ITask, ITimeEntry } from '../../../common/interfaces';
 
 export interface State {
     loading: boolean;
     failed: boolean;
     timeEntries: ITimeEntry[];
     activeTimeEntry: string;
+    tasks: ITask[];
 }
 
 const initialState: State = {
     loading: false,
     failed: false,
     timeEntries: [],
-    activeTimeEntry: ''
+    activeTimeEntry: '',
+    tasks: []
 };
 
 export function timeTrackerReducer(state: State = initialState, action: TimeTrackerActions.TimeTrackerActions) {
     switch (action.type) {
 
-        case TimeTrackerActions.LOAD:
+        case TimeTrackerActions.TE_LOAD:
             return {
                 ...state,
                 loading: true
             };
 
-        case TimeTrackerActions.LOAD_SUCCESS:
+        case TimeTrackerActions.TE_LOAD_SUCCESS:
             return {
                 ...state,
                 timeEntries: action.payload,
@@ -32,7 +34,7 @@ export function timeTrackerReducer(state: State = initialState, action: TimeTrac
                 failed: false
             };
 
-        case TimeTrackerActions.LOAD_FAILURE:
+        case TimeTrackerActions.TE_LOAD_FAILURE:
             return {
                 ...state,
                 timeEntries: [],
@@ -40,10 +42,26 @@ export function timeTrackerReducer(state: State = initialState, action: TimeTrac
                 failed: true
             };
 
-        case TimeTrackerActions.ADD_TIME_ENTRY:
+        case TimeTrackerActions.TASKS_LOAD:
             return {
                 ...state,
-                timeEntries: [...state.timeEntries, action.payload]
+                loading: true
+            };
+
+        case TimeTrackerActions.TASKS_LOAD_SUCCESS:
+            return {
+                ...state,
+                tasks: action.payload,
+                loading: false,
+                failed: false
+            };
+
+        case TimeTrackerActions.TASKS_LOAD_FAILURE:
+            return {
+                ...state,
+                tasks: [],
+                loading: false,
+                failed: true
             };
 
         case TimeTrackerActions.SET_ACTIVE_TIME_ENTRY: {
@@ -51,18 +69,6 @@ export function timeTrackerReducer(state: State = initialState, action: TimeTrac
             return {
                 ...state,
                 activeTimeEntry: action.payload
-            };
-        }
-
-        case TimeTrackerActions.UPDATE_TIME_ENTRY: {
-            const timeEntry = state.timeEntries[action.payload.index],
-                  timeEntries = [...state.timeEntries];
-
-            timeEntries[action.payload.index] = {...timeEntry, ...action.payload.timeEntry};
-
-            return {
-                ...state,
-                timeEntries: timeEntries
             };
         }
 

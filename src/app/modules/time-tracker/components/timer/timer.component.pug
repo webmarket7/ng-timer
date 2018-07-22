@@ -1,11 +1,8 @@
-include ../../../../../views/mixins/button.pug
-
 .timer
     .timer_face
         .timer_controls
-            +button({
-                type: 'round big red',
-                attr: {'#toggleButton': ''},
-                mode: {'[ngClass]': "(clickActions$ | async) || 'stopped'"}
-            })
+            app-toggle-button(
+                buttonType='round big red'
+                '[service]'='timerService'
+            )
         .timer_digits {{ (timerService.timer$ | async)?.value | time }}
