@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Observable } from 'rxjs';
 import { ITimeEntry } from '../../../../common/interfaces';
 import { TimeEntriesService } from '../../services/time-entries.service';
@@ -8,11 +8,11 @@ import { isLoading, timeEntries, activeTimeEntry } from '../../store/time-tracke
 import * as TimeTrackerActions from '../../store/time-tracker.actions';
 
 @Component({
-    selector: 'app-time-tracker',
-    templateUrl: './time-tracker.component.pug',
-    styleUrls: ['./time-tracker.component.scss']
+    selector: 'app-time-entries',
+    templateUrl: './time-entries.component.pug',
+    styleUrls: ['./time-entries.component.scss']
 })
-export class TimeTrackerComponent implements OnInit {
+export class TimeEntriesComponent implements OnInit {
 
     tableHead: string[];
     isLoading$: Observable<boolean>;

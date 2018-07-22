@@ -1,23 +1,38 @@
 @import 'functions';
 @import 'typography';
 
-$default-color: #444;
-$link-color: #777;
-$placeholder-color: #bbb9ba;
+$color-1: #f26c53;
+$color-2: #767b91;
+$color-3: #fff;
+$color-4: #7b8096;
+$color-5: #444;
+$color-6: #777;
+$color-7: #bbb9ba;
+$color-8: #212429;
+$color-9: #f4f8f9;
+$color-10: #7b838a;
+$color-11: #fdeeeb;
+$color-12: #e9563d;
+$color-13: #5fdba7;
+$color-14: #eaecfa;
+$color-15: #ce4233;
+$color-16: #2c3e50;
+$color-17: #3498db;
+$color-18: rgba(155, 89, 182, .5);
+$color-19: rgba(37, 34, 34, 0.15);
 
-$primary-color: #fff;
-$header-bg-color: #212429;
-$main-bg-color: #f4f8f9;
-$table-header-color: #7b838a;
+%button-shadow {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12),
+                0 1px 2px rgba(0,0,0,0.24);
+}
 
 %default-link {
-  color: $link-color;
+  color: $color-6;
   text-decoration: none;
 
   &:hover {
     text-decoration: none;
   }
-
 }
 
 %align-middle {
@@ -27,6 +42,11 @@ $table-header-color: #7b838a;
     vertical-align: middle;
     height: 100%;
   }
+}
+
+%min-content {
+    width: -moz-min-content;
+    width: -webkit-min-content;
 }
 
 %middle {

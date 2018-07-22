@@ -4,6 +4,7 @@ include ../../../../../views/mixins/button.pug
     .timer_face
         .timer_controls
             +button({
+                type: 'round big red',
                 attr: {'#toggleButton': ''},
                 mode: {'[ngClass]': "(clickActions$ | async) || 'stopped'"}
             })

@@ -3,7 +3,7 @@
         width: auto;
         padding: 100px;
         border-radius: 6px;
-        background-color: $primary-color;
+        background-color: $color-3;
     }
 
     &__group {
@@ -13,7 +13,7 @@
     &__label,
     &__control {
         font-family: $font;
-        color: $default-color;
+        color: $color-5;
         font-size: 14px;
     }
 
@@ -27,17 +27,17 @@
         width: 300px;
         height: 40px;
         padding: 0 10px;
-        border: 1px solid $default-color;
+        border: 1px solid $color-5;
         line-height: 16px;
     }
 
     &__button {
         font-family: $font;
-        color: $primary-color;
+        color: $color-3;
         font-size: 16px;
         font-weight: 500;
         line-height: 18px;
         padding: 10px;
-        background-color: $default-color;
+        background-color: $color-5;
     }
 }

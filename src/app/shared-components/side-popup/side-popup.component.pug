@@ -1,0 +1,30 @@
+include ../../../views/mixins/button.pug
+
+.side-popup_background
+.side-popup
+    form.side-popup_window('[formGroup]'='hostForm' '(submit)'='onSubmit(hostForm)')
+        .side-popup_close('(click)'='dismiss()')
+        .side-popup_layout
+            .side-popup_header Create Task
+            .side-popup_form
+                ng-container(
+                    '[ngComponentOutlet]'='data?.component'
+                    '[ndcDynamicInputs]'='{patchData: data?.patchData}'
+                    '[ndcDynamicOutputs]'='outputs'
+                )
+            .side-popup_controls
+                +button({
+                    type: 'rectangular standard red',
+                    text: 'submit',
+                    attr: {
+                        'type': 'submit'
+                    }
+                })
+                +button({
+                    type: 'rectangular standard white',
+                    text: 'cancel',
+                    attr: {
+                        'type': 'button',
+                        '(click)': 'onCancel()'
+                    }
+                })

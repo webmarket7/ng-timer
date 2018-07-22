@@ -1,3 +1,6 @@
 mixin button(params)
-    .button(class=params.size)&attributes(params.attr)
-        .button-icon(class=params.type)&attributes(params.mode)
+    button.button(class=params.type)&attributes(params.attr)
+        .button_icon()&attributes(params.mode)
+
+        if params.text
+            span.button_text #{params.text}

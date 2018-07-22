@@ -1,0 +1,10 @@
+include ../../../../../views/mixins/button.pug
+
+.instrument-panel
+    +button({
+        type: 'rectangular standalone red',
+        text: 'create task',
+        attr: {
+            '(click)': 'openCreateTaskPopup()'
+        }
+    })
