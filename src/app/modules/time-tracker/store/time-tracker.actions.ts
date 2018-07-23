@@ -7,6 +7,8 @@ export const TE_LOAD_FAILURE = 'TE_LOAD_FAILURE';
 export const TOGGLED_TRACK_BUTTON = 'TOGGLED_TRACK_BUTTON';
 export const STARTED_TRACKING = 'STARTED_TRACKING';
 export const STOPPED_TRACKING = 'STOPPED_TRACKING';
+export const SET_START_DATE = 'SET_START_DATE';
+export const SET_END_DATE = 'SET_END_DATE';
 export const SET_ACTIVE_TIME_ENTRY = 'SET_ACTIVE_TIME_ENTRY';
 export const DELETE_TIME_ENTRY = 'DELETE_TIME_ENTRY';
 
@@ -33,7 +35,7 @@ export class ToggledTrackButtonAction implements Action {
     readonly type = TOGGLED_TRACK_BUTTON;
 
     constructor(public payload: {
-        taskKey: string,
+        task: ITask,
         buttonState: ITimeStamp
     }) {}
 }
@@ -48,6 +50,30 @@ export class StoppedTrackingAction implements Action {
     readonly type = STOPPED_TRACKING;
 
     constructor(public payload: {key: string, entry: ITimeEntry}) {}
+}
+
+export class SetActiveTimeEntry implements Action {
+    readonly type = SET_ACTIVE_TIME_ENTRY;
+
+    constructor(public payload: string) {}
+}
+
+export class SetStartDate implements Action {
+    readonly type = SET_START_DATE;
+
+    constructor(public payload: number) {}
+}
+
+export class SetEndDate implements Action {
+    readonly type = SET_END_DATE;
+
+    constructor(public payload: number) {}
+}
+
+export class DeleteTimeEntry implements Action {
+    readonly type = DELETE_TIME_ENTRY;
+
+    constructor(public payload: number) {}
 }
 
 export class TasksLoadAction implements Action {
@@ -70,18 +96,6 @@ export class CreatedTaskAction implements Action {
     constructor(public payload: ITask) {}
 }
 
-export class SetActiveTimeEntry implements Action {
-    readonly type = SET_ACTIVE_TIME_ENTRY;
-
-    constructor(public payload: string) {}
-}
-
-export class DeleteTimeEntry implements Action {
-    readonly type = DELETE_TIME_ENTRY;
-
-    constructor(public payload: number) {}
-}
-
 export type TimeTrackerActions =
     TeLoadAction |
     TeLoadSuccessAction |
@@ -90,8 +104,9 @@ export type TimeTrackerActions =
     StartedTrackingAction |
     StoppedTrackingAction |
     SetActiveTimeEntry |
+    SetStartDate |
+    SetEndDate |
     DeleteTimeEntry |
-
     TasksLoadAction |
     TasksLoadSuccessAction |
     TasksLoadFailureAction |

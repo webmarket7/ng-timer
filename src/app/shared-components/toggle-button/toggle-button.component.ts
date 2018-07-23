@@ -4,6 +4,7 @@ import { AppState } from '../../store/app.reducers';
 import { Subscription, fromEvent } from 'rxjs';
 import { throttleTime, timestamp, map } from 'rxjs/operators';
 import * as TimeTrackerActions from '../../modules/time-tracker/store/time-tracker.actions';
+import { ITask } from '../../common/interfaces';
 
 @Component({
     selector: 'app-toggle-button',
@@ -16,8 +17,8 @@ export class ToggleButtonComponent implements AfterViewInit, OnDestroy {
 
     @Input() buttonType: string;
     @Input() buttonState?: string;
-    @Input() trackedTask?: string;
-    @Input() taskKey?: string;
+    @Input() trackedTask?: ITask;
+    @Input() task?: ITask;
 
     @ViewChild('toggleButton') toggleButton: ElementRef;
 
@@ -34,7 +35,7 @@ export class ToggleButtonComponent implements AfterViewInit, OnDestroy {
             )
             .subscribe((action: {timestamp: number, value: string}) => {
                 this.store.dispatch(new TimeTrackerActions.ToggledTrackButtonAction({
-                    taskKey: this.taskKey,
+                    task: this.task,
                     buttonState: action
                 }));
             });

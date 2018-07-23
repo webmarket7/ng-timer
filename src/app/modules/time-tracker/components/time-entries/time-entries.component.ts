@@ -39,7 +39,7 @@ export class TimeEntriesComponent implements OnInit {
         this.store.dispatch(new TimeTrackerActions.TeLoadAction());
     }
 
-    deleteEntry(entry: ITimeEntry) {
-        this.timeEntriesService.deleteTimeEntry(entry.key);
+    deleteEntry(timeEntry: ITimeEntry) {
+        this.timeEntriesService.deleteTimeEntry(timeEntry.key);
     }
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { TimerService } from '../../services/timer.service';
-import { ITask } from '../../../../common/interfaces';
 import { AppState } from '../../../../store/app.reducers';
 import { isLoading, tasks } from '../../store/time-tracker.selectors';
+import { TimerService } from '../../services/timer.service';
+import { TasksService } from '../../tasks.service';
+import { ITask } from '../../../../common/interfaces';
 import * as TimeTrackerActions from '../../store/time-tracker.actions';
 
 @Component({
@@ -20,7 +21,8 @@ export class TasksComponent implements OnInit {
 
     constructor(
         private store: Store<AppState>,
-        public timerService: TimerService
+        private tasksService: TasksService,
+        public timerService: TimerService,
     ) {
         this.tableHead = [
             'toggle',
@@ -37,7 +39,7 @@ export class TasksComponent implements OnInit {
         this.store.dispatch(new TimeTrackerActions.TasksLoadAction());
     }
 
-    deleteEntry(entry) {
-        console.log('Entry to be deleted', entry);
+    deleteTask(task: ITask) {
+        this.tasksService.deleteTask(task.key);
     }
 }

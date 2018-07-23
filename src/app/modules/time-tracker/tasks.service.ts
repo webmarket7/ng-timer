@@ -49,4 +49,28 @@ export class TasksService {
                 }
             );
     }
+
+    updateTask(key: string, task: ITask): PromiseLike<void> {
+        return this.globalService.updateListItem(this.ref, key, task)
+            .then(
+                () => {
+                    console.log('Task is successfully updated');
+                },
+                error => {
+                    console.error('Error occured while trying to update task:', error);
+                }
+            );
+    }
+
+    deleteTask(key: string): void {
+        this.globalService.deleteFromList(this.ref, key)
+            .then(
+                () => {
+                    console.log('Task is successfully deleted');
+                },
+                error => {
+                    console.error('Error occured while trying to delete task:', error);
+                }
+            );
+    }
 }

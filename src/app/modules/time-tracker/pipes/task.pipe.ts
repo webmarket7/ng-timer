@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ITask } from '../../../common/interfaces';
-import { TimerService } from '../services/timer.service';
 import { TimePipe } from './time.pipe';
 
 @Pipe({
@@ -9,7 +8,6 @@ import { TimePipe } from './time.pipe';
 export class TaskPipe implements PipeTransform {
 
     constructor(
-        private timerService: TimerService,
         private timePipe: TimePipe
     ) {}
 

@@ -5,10 +5,10 @@ export interface State {
     loading: boolean;
     failed: boolean;
     timeEntries: ITimeEntry[];
-    activeTimeEntry: string;
+    activeTimeEntry: ITimeEntry;
     tasks: ITask[];
     selectedTask: string;
-    trackedTask: string;
+    trackedTask: ITask;
     trackButtonState: string;
 }
 
@@ -16,10 +16,17 @@ const initialState: State = {
     loading: false,
     failed: false,
     timeEntries: [],
-    activeTimeEntry: '',
+    activeTimeEntry: {
+        key: '',
+        startDate: 0,
+    },
     tasks: [],
     selectedTask: '',
-    trackedTask: '',
+    trackedTask: {
+        key: '',
+        name: '',
+        logged: 0
+    },
     trackButtonState: 'stopped'
 };
 
@@ -82,20 +89,37 @@ export function timeTrackerReducer(
         case TimeTrackerActions.TOGGLED_TRACK_BUTTON:
             const
                 payload = action.payload,
-                taskKey = payload.taskKey,
+                task = payload.task,
                 buttonState = payload.buttonState.value;
 
             return {
                 ...state,
-                trackedTask: taskKey,
+                trackedTask: task,
                 trackButtonState: buttonState
             };
 
         case TimeTrackerActions.SET_ACTIVE_TIME_ENTRY: {
+            const timeEntry = Object.assign(state.activeTimeEntry, action.payload);
 
             return {
                 ...state,
-                activeTimeEntry: action.payload
+                activeTimeEntry: timeEntry
+            };
+        }
+
+        case TimeTrackerActions.SET_START_DATE: {
+
+            return {
+                ...state,
+                startDate: action.payload
+            };
+        }
+
+        case TimeTrackerActions.SET_END_DATE: {
+
+            return {
+                ...state,
+                endDate: action.payload
             };
         }
 

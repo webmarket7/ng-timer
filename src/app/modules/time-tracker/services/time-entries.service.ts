@@ -44,7 +44,7 @@ export class TimeEntriesService {
             );
     }
 
-    deleteTimeEntry(key): void {
+    deleteTimeEntry(key: string): void {
         this.globalService.deleteFromList(this.ref, key)
             .then(
                 () => {
