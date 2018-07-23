@@ -7,6 +7,9 @@ export interface State {
     timeEntries: ITimeEntry[];
     activeTimeEntry: string;
     tasks: ITask[];
+    selectedTask: string;
+    trackedTask: string;
+    trackButtonState: string;
 }
 
 const initialState: State = {
@@ -14,19 +17,27 @@ const initialState: State = {
     failed: false,
     timeEntries: [],
     activeTimeEntry: '',
-    tasks: []
+    tasks: [],
+    selectedTask: '',
+    trackedTask: '',
+    trackButtonState: 'stopped'
 };
 
-export function timeTrackerReducer(state: State = initialState, action: TimeTrackerActions.TimeTrackerActions) {
+export function timeTrackerReducer(
+    state: State = initialState,
+    action: TimeTrackerActions.TimeTrackerActions
+) {
     switch (action.type) {
 
         case TimeTrackerActions.TE_LOAD:
+
             return {
                 ...state,
                 loading: true
             };
 
         case TimeTrackerActions.TE_LOAD_SUCCESS:
+
             return {
                 ...state,
                 timeEntries: action.payload,
@@ -35,6 +46,7 @@ export function timeTrackerReducer(state: State = initialState, action: TimeTrac
             };
 
         case TimeTrackerActions.TE_LOAD_FAILURE:
+
             return {
                 ...state,
                 timeEntries: [],
@@ -43,12 +55,14 @@ export function timeTrackerReducer(state: State = initialState, action: TimeTrac
             };
 
         case TimeTrackerActions.TASKS_LOAD:
+
             return {
                 ...state,
                 loading: true
             };
 
         case TimeTrackerActions.TASKS_LOAD_SUCCESS:
+
             return {
                 ...state,
                 tasks: action.payload,
@@ -57,11 +71,24 @@ export function timeTrackerReducer(state: State = initialState, action: TimeTrac
             };
 
         case TimeTrackerActions.TASKS_LOAD_FAILURE:
+
             return {
                 ...state,
                 tasks: [],
                 loading: false,
                 failed: true
+            };
+
+        case TimeTrackerActions.TOGGLED_TRACK_BUTTON:
+            const
+                payload = action.payload,
+                taskKey = payload.taskKey,
+                buttonState = payload.buttonState.value;
+
+            return {
+                ...state,
+                trackedTask: taskKey,
+                trackButtonState: buttonState
             };
 
         case TimeTrackerActions.SET_ACTIVE_TIME_ENTRY: {

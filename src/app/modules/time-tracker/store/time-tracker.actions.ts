@@ -1,9 +1,10 @@
 import { Action } from '@ngrx/store';
-import { ITask, ITimeEntry } from '../../../common/interfaces';
+import { ITask, ITimeEntry, ITimeStamp } from '../../../common/interfaces';
 
 export const TE_LOAD = 'TE_LOAD';
 export const TE_LOAD_SUCCESS = 'TE_LOAD_SUCCESS';
 export const TE_LOAD_FAILURE = 'TE_LOAD_FAILURE';
+export const TOGGLED_TRACK_BUTTON = 'TOGGLED_TRACK_BUTTON';
 export const STARTED_TRACKING = 'STARTED_TRACKING';
 export const STOPPED_TRACKING = 'STOPPED_TRACKING';
 export const SET_ACTIVE_TIME_ENTRY = 'SET_ACTIVE_TIME_ENTRY';
@@ -26,6 +27,15 @@ export class TeLoadSuccessAction implements Action {
 
 export class TeLoadFailureAction implements Action {
     readonly type = TE_LOAD_FAILURE;
+}
+
+export class ToggledTrackButtonAction implements Action {
+    readonly type = TOGGLED_TRACK_BUTTON;
+
+    constructor(public payload: {
+        taskKey: string,
+        buttonState: ITimeStamp
+    }) {}
 }
 
 export class StartedTrackingAction implements Action {
@@ -76,6 +86,7 @@ export type TimeTrackerActions =
     TeLoadAction |
     TeLoadSuccessAction |
     TeLoadFailureAction |
+    ToggledTrackButtonAction |
     StartedTrackingAction |
     StoppedTrackingAction |
     SetActiveTimeEntry |

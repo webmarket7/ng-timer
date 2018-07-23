@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { of, from } from 'rxjs';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { of, from, Observable } from 'rxjs';
+import { take, switchMap, map, catchError } from 'rxjs/operators';
 import { ITask, ITimeEntry } from '../../../common/interfaces';
 import { TimeEntriesService } from '../services/time-entries.service';
 import { TasksService } from '../tasks.service';
+import { AppState } from '../../../store/app.reducers';
+import { activeTimeEntry } from './time-tracker.selectors';
 import * as TimeTrackerActions from './time-tracker.actions';
 
 @Injectable()
 export class TimeTrackerEffects {
 
+    activeTimeEntry$: Observable<string>;
+
     constructor(
         private actions$: Actions,
+        private store: Store<AppState>,
         private timeEntriesService: TimeEntriesService,
         private tasksService: TasksService
-    ) {}
+    ) {
+        this.activeTimeEntry$ = this.store.select(activeTimeEntry);
+    }
 
     @Effect()
     loadTimeEntries$ = this.actions$
@@ -61,7 +69,6 @@ export class TimeTrackerEffects {
                 return from(this.timeEntriesService.updateTimeEntry(payload.key, payload.entry))
                     .pipe(
                         map((ref: any) => {
-                            console.log('Stopped tracking', ref);
 
                             return {type: TimeTrackerActions.SET_ACTIVE_TIME_ENTRY, payload: ''};
                         }),
@@ -89,7 +96,6 @@ export class TimeTrackerEffects {
             })
         );
 
-
     @Effect({dispatch: false})
     createTask$ = this.actions$
         .ofType(TimeTrackerActions.CREATED_TASK)
@@ -99,4 +105,32 @@ export class TimeTrackerEffects {
             })
         );
 
+    @Effect()
+    startStop$ = this.actions$
+        .ofType(TimeTrackerActions.TOGGLED_TRACK_BUTTON)
+        .pipe(
+            switchMap((action: TimeTrackerActions.ToggledTrackButtonAction) => {
+                const {taskKey, buttonState} = action.payload;
+
+                return this.activeTimeEntry$
+                    .pipe(
+                        take(1),
+                        map((key: string) => {
+
+                            switch (buttonState.value) {
+                                case 'started':
+                                    return {type: TimeTrackerActions.STARTED_TRACKING, payload: {
+                                        startDate: buttonState.timestamp
+                                    }};
+
+                                case 'stopped':
+                                    return {type: TimeTrackerActions.STOPPED_TRACKING, payload:                          {
+                                        key,
+                                        entry: {endDate: buttonState.timestamp}
+                                    }};
+                            }
+                        })
+                    );
+                })
+        );
 }

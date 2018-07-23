@@ -5,6 +5,7 @@ export const selectTimeTrackerState = state => state.timeTracker;
 export const timeEntries = createSelector(
     selectTimeTrackerState,
     timeTracker => {
+
         return timeTracker.timeEntries;
     }
 );
@@ -12,6 +13,7 @@ export const timeEntries = createSelector(
 export const isLoading = createSelector(
     selectTimeTrackerState,
     timeTracker => {
+
         return timeTracker.loading;
     }
 );
@@ -19,6 +21,7 @@ export const isLoading = createSelector(
 export const isFailed = createSelector(
     selectTimeTrackerState,
     timeTracker => {
+
         return timeTracker.failed;
     }
 );
@@ -26,6 +29,7 @@ export const isFailed = createSelector(
 export const activeTimeEntry = createSelector(
     selectTimeTrackerState,
     timeTracker => {
+
         return timeTracker.activeTimeEntry;
     }
 );
@@ -33,7 +37,24 @@ export const activeTimeEntry = createSelector(
 export const tasks = createSelector(
     selectTimeTrackerState,
     timeTracker => {
+
         return timeTracker.tasks;
+    }
+);
+
+export const trackButton = createSelector(
+    selectTimeTrackerState,
+    timeTracker => {
+
+        return timeTracker.trackButtonState;
+    }
+);
+
+export const trackedTask = createSelector(
+    selectTimeTrackerState,
+    timeTracker => {
+
+        return timeTracker.trackedTask;
     }
 );
 

@@ -1,36 +1,46 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { Observable, fromEvent } from 'rxjs';
-import { scan, startWith, throttleTime, map, tap } from 'rxjs/operators';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.reducers';
+import { Subscription, fromEvent } from 'rxjs';
+import { throttleTime, timestamp, map } from 'rxjs/operators';
+import * as TimeTrackerActions from '../../modules/time-tracker/store/time-tracker.actions';
 
 @Component({
     selector: 'app-toggle-button',
     templateUrl: './toggle-button.component.pug',
     styleUrls: ['./toggle-button.component.scss']
 })
-export class ToggleButtonComponent implements AfterViewInit {
+export class ToggleButtonComponent implements AfterViewInit, OnDestroy {
 
-    clickActions$: Observable<string>;
+    clickActions$: Subscription;
 
     @Input() buttonType: string;
-    @Input() service: any;
+    @Input() buttonState?: string;
+    @Input() trackedTask?: string;
     @Input() taskKey?: string;
 
     @ViewChild('toggleButton') toggleButton: ElementRef;
 
-    constructor() {}
+    constructor(
+        private store: Store<AppState>
+    ) {}
 
     ngAfterViewInit() {
-        console.log('Task key', this.taskKey);
-
         this.clickActions$ = fromEvent(this.toggleButton.nativeElement, 'click')
             .pipe(
                 throttleTime(1000),
-                scan((acc) => !acc),
-                startWith(false),
-                map((state: boolean) => state ? 'started' : 'stopped'),
-                tap((command: string) => {
-                    this.service.commandsStream$.next(command);
-                })
-            );
+                map(() => this.buttonState === 'stopped' ? 'started' : 'stopped'),
+                timestamp()
+            )
+            .subscribe((action: {timestamp: number, value: string}) => {
+                this.store.dispatch(new TimeTrackerActions.ToggledTrackButtonAction({
+                    taskKey: this.taskKey,
+                    buttonState: action
+                }));
+            });
+    }
+
+    ngOnDestroy() {
+        this.clickActions$.unsubscribe();
     }
 }

@@ -3,5 +3,5 @@ include ../../../views/mixins/button.pug
 +button({
     type: '{{ buttonType }}',
     attr: {'#toggleButton': ''},
-    mode: {'[ngClass]': "(clickActions$ | async) || 'stopped'"}
+    mode: {'[ngClass]': "trackedTask === taskKey || !taskKey ? buttonState : 'stopped'"}
 })

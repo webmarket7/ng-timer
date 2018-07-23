@@ -1,14 +1,3 @@
-include ../../../../../views/mixins/button.pug
-
-.instrument-panel
-    +button({
-        type: 'rectangular standalone red',
-        text: 'add task',
-        attr: {
-            '(click)': 'openCreateTaskPopup()'
-        }
-    })
-
 app-data-table(
     className='tasks'
     '[isLoading]'='(isLoading$ | async)'
@@ -18,7 +7,7 @@ app-data-table(
 )
     ng-template('#row'='' 'let-entry'='entry' 'let-index'='index')
         td(
-            '*ngFor'='let cell of (entry | task: {timer: (timerService.timer$ | async).value, activeTask: "-LI1oG6f6Z7vfh7vFbK_"}); index as i'
+            '*ngFor'='let cell of (entry | task: {timer: (timerService.timer$ | async), activeTask: (timerService.trackedTask$ | async)}); index as i'
             '[ngClass]'='tableHead[i]'
             '[ngSwitch]'='cell'
         )
@@ -26,7 +15,8 @@ app-data-table(
                 ng-container('*ngSwitchCase'="'toggle'")
                     app-toggle-button(
                         buttonType='round small red inline'
-                        '[service]'='timerService'
+                        '[buttonState]'='(timerService.trackButtonState$ | async)'
+                        '[trackedTask]'='(timerService.trackedTask$ | async)'
                         '[taskKey]'='entry.key'
                     )
                 ng-container('*ngSwitchCase'="'action'")

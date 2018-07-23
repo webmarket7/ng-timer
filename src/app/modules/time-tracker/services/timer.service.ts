@@ -1,61 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducers';
-import { TimeEntriesService } from './time-entries.service';
-import { activeTimeEntry } from '../store/time-tracker.selectors';
-import * as TimeTrackerActions from '../store/time-tracker.actions';
-import { Observable, Subject, interval, Timestamp } from 'rxjs';
-import { take, map, filter, timestamp, takeUntil, switchMap, startWith, scan } from 'rxjs/operators';
+import { Observable, interval } from 'rxjs';
+import { share, map, filter, takeUntil, switchMap, endWith } from 'rxjs/operators';
+import { trackButton, trackedTask } from '../store/time-tracker.selectors';
 
 @Injectable()
 export class TimerService {
 
-    elapsed: {value: number, timestamp: number};
-    commandsStream$: Subject<string>;
-    activeTimeEntry$: Observable<string>;
-    timer$: Observable<Timestamp<any>>;
+    trackedTask$: Observable<string>;
+    trackButtonState$: Observable<string>;
+    timer$: Observable<number>;
 
     constructor(
-        private store: Store<AppState>,
-        private timeEntriesService: TimeEntriesService,
+        private store: Store<AppState>
     ) {
-        this.commandsStream$ = new Subject();
-        this.activeTimeEntry$ = this.store.select(activeTimeEntry);
-        this.elapsed = {
-            value: 0,
-            timestamp: 0
-        };
+        this.trackedTask$ = this.store.select(trackedTask);
+        this.trackButtonState$ = this.store.select(trackButton);
 
         const
-            start$: Observable<void> = this.commandsStream$
+            start$: Observable<string | void> = this.trackButtonState$
                 .pipe(
-                    filter(command => command === 'started'),
-                    timestamp(),
-                    map(value => {
-                        this.store.dispatch(new TimeTrackerActions.StartedTrackingAction({
-                                startDate: value.timestamp
-                            })
-                        );
-                    })
+                    filter(state => state === 'started'),
+                    share()
                 ),
-            stop$: Observable<void> = this.commandsStream$
+            stop$: Observable<string | void> = this.trackButtonState$
                 .pipe(
-                    filter(command => command === 'stopped'),
-                    timestamp(),
-                    switchMap(() => {
-                        return this.activeTimeEntry$
-                            .pipe(
-                                take(1),
-                                map((key: string) => {
-                                    this.store.dispatch(new TimeTrackerActions.StoppedTrackingAction(
-                                        {
-                                            key,
-                                            entry: {endDate: this.elapsed.timestamp}
-                                        }
-                                    ));
-                                })
-                            );
-                    })
+                    filter(state => state === 'stopped'),
+                    share()
                 ),
             counter$: Observable<number> = interval(1000)
                 .pipe(
@@ -64,15 +36,11 @@ export class TimerService {
 
         this.timer$ = start$
             .pipe(
-                switchMap(val => counter$),
-                startWith(0),
-                scan((acc) => acc += 1000),
-                timestamp(),
-                map(value => {
-                    this.elapsed = value;
-
-                    return value;
-                })
+                switchMap(() => {
+                    return counter$.pipe(endWith(-1));
+                }),
+                map((val: number) => (val + 1) * 1000),
+                share()
             );
     }
 }

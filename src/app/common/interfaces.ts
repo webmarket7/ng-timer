@@ -10,7 +10,7 @@ export interface ITask {
     logged?: number;
 }
 
-export interface ITick {
+export interface ITimeStamp {
     timestamp: number;
-    value: number;
+    value: string;
 }

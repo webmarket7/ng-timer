@@ -3,6 +3,7 @@
         .timer_controls
             app-toggle-button(
                 buttonType='round big red'
-                '[service]'='timerService'
+                '[buttonState]'='(timerService.trackButtonState$ | async)'
+                '[trackedTask]'='(timerService.trackedTask$ | async)'
             )
-        .timer_digits {{ (timerService.timer$ | async)?.value | time }}
+        .timer_digits {{ (timerService.timer$ | async) | time }}

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { TasksService } from '../../tasks.service';
 import { TimerService } from '../../services/timer.service';
 import { ITask } from '../../../../common/interfaces';
 import { AppState } from '../../../../store/app.reducers';
@@ -21,7 +20,6 @@ export class TasksComponent implements OnInit {
 
     constructor(
         private store: Store<AppState>,
-        private tasksService: TasksService,
         public timerService: TimerService
     ) {
         this.tableHead = [
@@ -37,15 +35,6 @@ export class TasksComponent implements OnInit {
 
     ngOnInit() {
         this.store.dispatch(new TimeTrackerActions.TasksLoadAction());
-    }
-
-    openCreateTaskPopup() {
-        this.tasksService.openTaskPopup()
-            .subscribe((task: ITask) => {
-                task.logged = 0;
-
-                this.store.dispatch(new TimeTrackerActions.CreatedTaskAction(task));
-            });
     }
 
     deleteEntry(entry) {
