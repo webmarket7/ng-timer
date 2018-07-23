@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { TasksService } from '../../tasks.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { TimerService } from '../../services/timer.service';
 import { ITask } from '../../../../common/interfaces';
+import { AppState } from '../../../../store/app.reducers';
+import { isLoading, tasks } from '../../store/time-tracker.selectors';
+import * as TimeTrackerActions from '../../store/time-tracker.actions';
 
 @Component({
     selector: 'app-tasks',
@@ -9,16 +14,30 @@ import { ITask } from '../../../../common/interfaces';
 })
 export class TasksComponent implements OnInit {
 
+    tableHead: string[];
+    tasks$: Observable<{tasks: ITask[]}>;
+    isLoading$: Observable<boolean>;
+
     constructor(
-        private tasksService: TasksService
-    ) {}
+        private store: Store<AppState>,
+        public timerService: TimerService
+    ) {
+        this.tableHead = [
+            'toggle',
+            'task summary',
+            'logged',
+            'action'
+        ];
 
-    ngOnInit() {}
+        this.isLoading$ = store.select(isLoading);
+        this.tasks$ = this.store.select(tasks);
+    }
 
-    openCreateTaskPopup() {
-        this.tasksService.openTaskPopup()
-            .subscribe((task: ITask) => {
-                console.log('Task', task);
-            });
+    ngOnInit() {
+        this.store.dispatch(new TimeTrackerActions.TasksLoadAction());
+    }
+
+    deleteEntry(entry) {
+        console.log('Entry to be deleted', entry);
     }
 }

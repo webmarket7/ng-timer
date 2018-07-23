@@ -1,3 +1,18 @@
+include ../../../views/mixins/button.pug
+
 app-timer
-app-tasks
-//app-time-entries
+
+.instrument-panel
+    +button({
+        type: 'rectangular standalone red',
+        text: 'add task',
+        attr: {
+            '(click)': 'openCreateTaskPopup()'
+        }
+    })
+
+.columns
+    .column
+        app-tasks
+    .column
+        app-time-entries

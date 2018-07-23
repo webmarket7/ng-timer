@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { SidePopupComponent } from '../../shared-components/side-popup/side-popup.component';
 import { TaskFormComponent } from './popups/task-form/task-form.component';
 import { PopupService} from '../../services/popup.service';
+import { GlobalService } from '../../services/global.service';
 import { ITask } from '../../common/interfaces';
 
 @Injectable()
 export class TasksService {
 
+    ref: string;
+
     constructor(
-        private popupService: PopupService
-    ) {}
+        private popupService: PopupService,
+        private globalService: GlobalService
+    ) {
+        this.ref = 'tasks';
+    }
 
     openTaskPopup(patchData?: ITask) {
         const popup = this.popupService.create(SidePopupComponent);
@@ -23,5 +30,23 @@ export class TasksService {
         }
 
         return popup.close;
+    }
+
+    getList(): Observable<{tasks: ITask[]}> {
+        return this.globalService.getListObservable(this.ref);
+    }
+
+    addTask(task: ITask): PromiseLike<void> {
+        return this.globalService.appendToList(this.ref, task)
+            .then(
+                (response) => {
+                    console.log('Task is successfully added', response);
+
+                    return response;
+                },
+                error => {
+                    console.error('Error occured while trying to add task:', error);
+                }
+            );
     }
 }

@@ -36,7 +36,7 @@ export class TimeEntriesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.store.dispatch(new TimeTrackerActions.LoadAction());
+        this.store.dispatch(new TimeTrackerActions.TeLoadAction());
     }
 
     deleteEntry(entry: ITimeEntry) {

@@ -14,6 +14,7 @@ export class DataTableComponent implements OnChanges {
     @Input() isLoading: boolean;
     @Input() className: string;
     @Input() head: string[];
+    @Input() hideHead?: boolean;
     @Input() body: any[];
     @Input() activeEntry: string;
 

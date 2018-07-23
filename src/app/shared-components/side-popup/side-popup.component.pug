@@ -5,7 +5,7 @@ include ../../../views/mixins/button.pug
     form.side-popup_window('[formGroup]'='hostForm' '(submit)'='onSubmit(hostForm)')
         .side-popup_close('(click)'='dismiss()')
         .side-popup_layout
-            .side-popup_header Create Task
+            .side-popup_header Add Task
             .side-popup_form
                 ng-container(
                     '[ngComponentOutlet]'='data?.component'

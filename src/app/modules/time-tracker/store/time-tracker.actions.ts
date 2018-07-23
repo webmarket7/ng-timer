@@ -1,29 +1,41 @@
 import { Action } from '@ngrx/store';
-import { ITimeEntry } from '../../../common/interfaces';
+import { ITask, ITimeEntry, ITimeStamp } from '../../../common/interfaces';
 
-export const LOAD = 'LOAD';
+export const TE_LOAD = 'TE_LOAD';
+export const TE_LOAD_SUCCESS = 'TE_LOAD_SUCCESS';
+export const TE_LOAD_FAILURE = 'TE_LOAD_FAILURE';
+export const TOGGLED_TRACK_BUTTON = 'TOGGLED_TRACK_BUTTON';
 export const STARTED_TRACKING = 'STARTED_TRACKING';
 export const STOPPED_TRACKING = 'STOPPED_TRACKING';
-
-export const LOAD_SUCCESS = 'LOAD_SUCCESS';
-export const LOAD_FAILURE = 'LOAD_FAILURE';
-export const ADD_TIME_ENTRY = 'ADD_TIME_ENTRY';
-export const UPDATE_TIME_ENTRY = 'UPDATE_TIME_ENTRY';
-export const DELETE_TIME_ENTRY = 'DELETE_TIME_ENTRY';
 export const SET_ACTIVE_TIME_ENTRY = 'SET_ACTIVE_TIME_ENTRY';
+export const DELETE_TIME_ENTRY = 'DELETE_TIME_ENTRY';
 
-export class LoadAction implements Action {
-    readonly type = LOAD;
+export const TASKS_LOAD = 'TASKS_LOAD';
+export const TASKS_LOAD_SUCCESS = 'TASKS_LOAD_SUCCESS';
+export const TASKS_LOAD_FAILURE = 'TASKS_LOAD_FAILURE';
+export const CREATED_TASK = 'CREATED_TASK';
+
+export class TeLoadAction implements Action {
+    readonly type = TE_LOAD;
 }
 
-export class LoadSuccessAction implements Action {
-    readonly type = LOAD_SUCCESS;
+export class TeLoadSuccessAction implements Action {
+    readonly type = TE_LOAD_SUCCESS;
 
     constructor(public payload: ITimeEntry[]) {}
 }
 
-export class LoadFailureAction implements Action {
-    readonly type = LOAD_FAILURE;
+export class TeLoadFailureAction implements Action {
+    readonly type = TE_LOAD_FAILURE;
+}
+
+export class ToggledTrackButtonAction implements Action {
+    readonly type = TOGGLED_TRACK_BUTTON;
+
+    constructor(public payload: {
+        taskKey: string,
+        buttonState: ITimeStamp
+    }) {}
 }
 
 export class StartedTrackingAction implements Action {
@@ -38,22 +50,24 @@ export class StoppedTrackingAction implements Action {
     constructor(public payload: {key: string, entry: ITimeEntry}) {}
 }
 
-export class AddTimeEntry implements Action {
-    readonly type = ADD_TIME_ENTRY;
-
-    constructor(public payload: ITimeEntry) {}
+export class TasksLoadAction implements Action {
+    readonly type = TASKS_LOAD;
 }
 
-export class UpdateTimeEntry implements Action {
-    readonly type = UPDATE_TIME_ENTRY;
+export class TasksLoadSuccessAction implements Action {
+    readonly type = TASKS_LOAD_SUCCESS;
 
-    constructor(public payload: {index: number, timeEntry: ITimeEntry}) {}
+    constructor(public payload: ITask[]) {}
 }
 
-export class DeleteTimeEntry implements Action {
-    readonly type = DELETE_TIME_ENTRY;
+export class TasksLoadFailureAction implements Action {
+    readonly type = TASKS_LOAD_FAILURE;
+}
 
-    constructor(public payload: number) {}
+export class CreatedTaskAction implements Action {
+    readonly type = CREATED_TASK;
+
+    constructor(public payload: ITask) {}
 }
 
 export class SetActiveTimeEntry implements Action {
@@ -62,12 +76,24 @@ export class SetActiveTimeEntry implements Action {
     constructor(public payload: string) {}
 }
 
-export type TimeTrackerActions = LoadAction |
-                                 StartedTrackingAction |
-                                 StoppedTrackingAction |
-                                 LoadSuccessAction |
-                                 LoadFailureAction |
-                                 AddTimeEntry |
-                                 SetActiveTimeEntry |
-                                 UpdateTimeEntry |
-                                 DeleteTimeEntry;
+export class DeleteTimeEntry implements Action {
+    readonly type = DELETE_TIME_ENTRY;
+
+    constructor(public payload: number) {}
+}
+
+export type TimeTrackerActions =
+    TeLoadAction |
+    TeLoadSuccessAction |
+    TeLoadFailureAction |
+    ToggledTrackButtonAction |
+    StartedTrackingAction |
+    StoppedTrackingAction |
+    SetActiveTimeEntry |
+    DeleteTimeEntry |
+
+    TasksLoadAction |
+    TasksLoadSuccessAction |
+    TasksLoadFailureAction |
+    CreatedTaskAction;
+
