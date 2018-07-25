@@ -24,8 +24,20 @@ export class GlobalService {
         });
     }
 
-    getListObservable(ref: string): Observable<any> {
-        return this.db.list(`${ref}/${this.userId}`).snapshotChanges()
+    getListObservable(path: string): Observable<any> {
+
+        return this.db.list(`${path}/${this.userId}`).snapshotChanges()
+            .pipe(
+                map(actions => {
+                    return actionsToList(actions);
+                }));
+    }
+
+    getFragmentObservable(path: string, query: any): Observable<any> {
+
+        return this.db.list(`${path}/${this.userId}`, ref => {
+            return ref.orderByChild(query.orderBy). equalTo(query.equalTo);
+        }).snapshotChanges()
             .pipe(
                 map(actions => {
                     return actionsToList(actions);

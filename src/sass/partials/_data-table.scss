@@ -145,6 +145,12 @@ $button-size: 40px;
 %tasks {
     $toggle-button-width: 60px;
 
+    td {
+        .table-cell-wrapper {
+            cursor: pointer;
+        }
+    }
+
     th,
     td {
         &.toggle {

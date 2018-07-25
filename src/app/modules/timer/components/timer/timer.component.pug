@@ -1,0 +1,8 @@
+.timer
+    .timer_face
+        .timer_controls
+            app-toggle-button(
+                buttonType='round big red'
+                '[buttonState]'='(timerService.trackButtonState$ | async)'
+            )
+        .timer_digits {{ (timerService.timer$ | async) | time }}

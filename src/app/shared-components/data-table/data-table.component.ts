@@ -25,12 +25,20 @@ export class DataTableComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        const isLoading = changes.isLoading;
+        const change = changes.isLoading;
 
-        if (isLoading && !isLoading.currentValue) {
-            setTimeout(() => {
-                this.animationsDisabled = false;
-            }, 1000);
+        if (change) {
+            const isLoading = change.currentValue;
+
+            console.log('Is loading?', isLoading, 'Are animations disabled?', this.animationsDisabled);
+
+            if (isLoading) {
+                this.animationsDisabled = true;
+            } else {
+                const timeOut = setTimeout(() => {
+                    this.animationsDisabled = false;
+                }, 1000);
+            }
         }
     }
 

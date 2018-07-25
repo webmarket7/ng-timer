@@ -5,7 +5,12 @@ import { AuthGuardService} from './services/auth-guard.service';
 const appRoutes: Routes = [
     {
         path: '',
-        loadChildren: './modules/time-tracker/time-tracker.module#TimeTrackerModule',
+        redirectTo: 'tracker',
+        pathMatch: 'full'
+    },
+    {
+        path: 'tracker',
+        loadChildren: './modules/timer/timer.module#TimerModule',
         canActivate: [AuthGuardService]
     },
     {

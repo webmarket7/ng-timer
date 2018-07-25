@@ -1,0 +1,18 @@
+app-data-table(
+    className='time-entries'
+    '[isLoading]'='(isLoading$ | async)'
+    '[head]'='tableHead'
+    '[body]'='(timeEntries$ | async)'
+    '[activeEntry]'='(trackedTimeEntry$ | async)?.key'
+)
+    ng-template('#row'='' 'let-entry'='entry' 'let-index'='index')
+        td(
+            '*ngFor'='let cell of (entry | timeEntry); index as i'
+            '[ngClass]'='tableHead[i]'
+            '[ngSwitch]'='cell'
+        )
+            .table-cell-wrapper
+                ng-container('*ngSwitchCase'="'action'")
+                    .action-button.delete('(click)'='deleteEntry(entry)')
+                ng-container('*ngSwitchDefault'='')
+                    span {{ cell }}

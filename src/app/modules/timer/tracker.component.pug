@@ -1,0 +1,19 @@
+include ../../../views/mixins/button.pug
+
+app-timer
+
+.instrument-panel
+    +button({
+        type: 'rectangular standalone red',
+        text: 'add task',
+        attr: {
+            '(click)': 'openCreateTaskPopup()'
+        }
+    })
+
+.columns
+    .column
+        app-tasks
+    .column('*ngIf'='(selectedTask$ | async)?.key')
+        app-time-entries
+
