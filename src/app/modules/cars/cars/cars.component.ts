@@ -11,7 +11,6 @@ export class CarsComponent implements OnInit {
 
     car: Vehicle;
     truck: Truck;
-    bus: any;
 
     constructor() {
     }
