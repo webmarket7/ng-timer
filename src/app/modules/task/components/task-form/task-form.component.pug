@@ -1,8 +1,10 @@
 form.form-group('[formGroup]'='form')
-    label.form-group_label(for='name') Name:
-    input.form-group_input(
-        type='text'
-        name='name'
-        id='name'
+    label.label(for='name') *Name
+
+    app-text-input(
         formControlName='name'
+        '[id]'='name'
     )
+
+    .error-messages
+        .error-messages_item {{ (form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)) ? (form.get('name').errors | validationMessage) : '' }}

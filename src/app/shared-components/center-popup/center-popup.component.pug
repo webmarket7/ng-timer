@@ -1,0 +1,15 @@
+include ../../../views/mixins/button.pug
+
+app-dynamic-form(
+    '[controls]'='model'
+    '(send)'='onClose($event)'
+)
+
++button({
+    type: 'rectangular standard white',
+    text: 'cancel',
+    attr: {
+        'type': 'button',
+        '(click)': 'onClose()'
+    }
+})

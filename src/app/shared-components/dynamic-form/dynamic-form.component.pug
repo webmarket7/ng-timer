@@ -1,0 +1,34 @@
+include ../../../views/mixins/button.pug
+
+form.form-group('[formGroup]'='form' '(ngSubmit)'='onFormSubmit(form)' novalidate='' autocomplete='off')
+    ng-container('*ngFor'='let control of controls')
+
+        label.label(
+            '[attr.for]'='control.key'
+            '[ngClass]'='{required: control.validation.required}'
+        ) {{ control.label }}
+
+        app-text-input(
+            '[formControlName]'='control.key'
+            '[id]'='control.key'
+        )
+
+        .error-messages
+            .error-messages_item {{ (form.get(control.key).invalid && (form.get(control.key).dirty || form.get(control.key).touched)) ? (form.get(control.key).errors | validationMessage) : '' }}
+
+    .form-buttons
+        +button({
+            type: 'rectangular standard red',
+            text: 'submit',
+            attr: {
+                'type': 'submit'
+            }
+        })
+        +button({
+            type: 'rectangular standard white',
+            text: 'cancel',
+            attr: {
+                'type': 'button',
+                '(click)': 'onCancel()'
+            }
+        })

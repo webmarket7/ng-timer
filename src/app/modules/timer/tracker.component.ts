@@ -6,6 +6,7 @@ import { TaskCreated } from '../task/store/task.actions';
 import { ITask } from '../../common/interfaces';
 import { TasksService } from '../task/services/tasks.service';
 import { selectedTask } from '../task/store/task.selectors';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-tracker',
@@ -33,4 +34,11 @@ export class TrackerComponent implements OnInit {
                 this.store.dispatch(new TaskCreated(task));
             });
     }
+
+    // openCreateTaskPopup() {
+    //     this.tasksService.openCenterPopup()
+    //         .subscribe((formValue) => {
+    //             console.log('Form Value', formValue);
+    //         });
+    // }
 }

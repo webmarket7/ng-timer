@@ -17,7 +17,7 @@ export class TaskFormComponent implements OnInit {
         private fb: FormBuilder
     ) {
         this.form = this.fb.group({
-            name: ['', Validators.required]
+            name: ['', [Validators.required, Validators.minLength(3)]]
         });
 
         this.formReady = new EventEmitter();

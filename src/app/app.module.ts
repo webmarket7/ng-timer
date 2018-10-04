@@ -28,12 +28,12 @@ import { TopMenuComponent } from './shared-components/top-menu/top-menu.componen
         RoutingModule,
         SharedComponentsModule,
         StoreModule.forRoot(reducers),
+        EffectsModule.forRoot([AuthEffects]),
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
-        EffectsModule.forRoot([AuthEffects]),
         StoreRouterConnectingModule,
-        !environment.production ? StoreDevtoolsModule.instrument() : []
+        !environment.production ? StoreDevtoolsModule.instrument() : [],
     ],
     providers: [],
     bootstrap: [

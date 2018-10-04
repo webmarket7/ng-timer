@@ -1,0 +1,30 @@
+.garage {
+    background-color: $color-3;
+    height: 80vh;
+    padding: 20px;
+}
+
+.garage__name {
+    font: $font;
+    font-size: 28px;
+    color: $color-1;
+    padding: 20px;
+    text-align: center;
+}
+
+.garage__slot {
+    font: $font;
+    font-size: 14px;
+    color: $color-8;
+    margin-bottom: 20px;
+}
+
+.car__data {
+    padding-bottom: 10px;
+    font-weight: bold;
+
+    span {
+        margin-left: 10px;
+        font-weight: normal;
+    }
+}

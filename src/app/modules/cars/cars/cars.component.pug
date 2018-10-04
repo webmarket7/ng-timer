@@ -1,0 +1,58 @@
+include ../../../../views/mixins/button.pug
+
+.garage
+    .garage__name My garage
+    .garage__slot
+        .car__data Type:
+            span {{ car.type }}
+        .car__data Speed:
+            span {{ (car.speed$ | async) || 0 }} mph
+
+        +button({
+            type: 'rectangular standalone red',
+            text: 'Start engine',
+            attr: {
+                '(click)': 'car.startEngine = true'
+            }
+        })
+
+        +button({
+            type: 'rectangular standalone',
+            text: 'Accelerate',
+            attr: {
+                '(click)': 'car.accelerate()'
+            }
+        })
+
+    .garage__slot
+        .car__data Type:
+            span {{ truck.type }}
+        .car__data Gear:
+            span {{ (truck.currentGear$ | async) || 0 }}
+        .car__data Contains:
+            span {{ truck.contains }} t
+
+        +button({
+            type: 'rectangular standalone red',
+            text: 'Start engine',
+            attr: {
+                '(click)': 'truck.startEngine = true'
+            }
+        })
+
+        +button({
+            type: 'rectangular standalone',
+            text: 'Accelerate',
+            attr: {
+                '(click)': 'truck.accelerate()'
+            }
+        })
+
+        +button({
+            type: 'rectangular standalone',
+            text: 'Haul',
+            attr: {
+                '(click)': 'truck.haul(6)'
+            }
+        })
+
