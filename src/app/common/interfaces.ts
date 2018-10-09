@@ -15,3 +15,16 @@ export interface ITimeStamp {
     timestamp: number;
     value: string;
 }
+
+export interface IFormValidators {
+    required: true;
+    minLength: number;
+}
+
+export interface IFormControl {
+    key: string;
+    label: string;
+    value: string;
+    type: string;
+    validation: IFormValidators;
+}

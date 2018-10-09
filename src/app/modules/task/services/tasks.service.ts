@@ -5,6 +5,7 @@ import { TaskFormComponent } from '../components/task-form/task-form.component';
 import { PopupService } from '../../../services/popup.service';
 import { GlobalService } from '../../../services/global.service';
 import { ITask } from '../../../common/interfaces';
+import { CenterPopupComponent } from '../../../shared-components/center-popup/center-popup.component';
 
 @Injectable()
 export class TasksService {
@@ -16,6 +17,32 @@ export class TasksService {
         private globalService: GlobalService
     ) {
         this.ref = 'tasks';
+    }
+
+    openCenterPopup() {
+        const popup = this.popupService.create(CenterPopupComponent);
+
+        popup.model = [
+            {
+                key: 'name',
+                label: 'Name:',
+                value: null,
+                type: 'text-input',
+                validation: {
+                    required: true,
+                    minLength: 3
+                }
+            },
+            {
+                key: 'description',
+                label: 'Description:',
+                value: null,
+                type: 'text-input',
+                validation: {}
+            }
+        ];
+
+        return popup.close;
     }
 
     openTaskPopup(patchData?: ITask) {

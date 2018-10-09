@@ -30,8 +30,6 @@ export class DataTableComponent implements OnChanges {
         if (change) {
             const isLoading = change.currentValue;
 
-            console.log('Is loading?', isLoading, 'Are animations disabled?', this.animationsDisabled);
-
             if (isLoading) {
                 this.animationsDisabled = true;
             } else {

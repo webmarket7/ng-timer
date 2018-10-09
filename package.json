@@ -37,7 +37,7 @@
     "ng-dynamic-component": "^3.0.0",
     "pug-html-loader": "^1.1.5",
     "rxjs": "^6.0.0",
-    "rxjs-compat": "^6.2.1",
+    "rxjs-compat": "^6.2.2",
     "winston": "^2.4.3",
     "zone.js": "^0.8.26"
   },

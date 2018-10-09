@@ -1,0 +1,12 @@
+include ../../../views/mixins/button.pug
+
+form('[formGroup]'='form' '(ngSubmit)'='onSubmit(form)')
+    app-text-input(id='name' formControlName='name')
+
+    +button({
+        type: 'rectangular standard red',
+        text: 'submit',
+        attr: {
+            'type': 'submit'
+        }
+    })

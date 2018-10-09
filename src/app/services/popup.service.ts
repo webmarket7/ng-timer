@@ -17,9 +17,9 @@ export class PopupService {
             componentFactory = this.resolver.resolveComponentFactory(component),
             popup: ComponentRef<any> = container.createComponent(componentFactory, index, injector, projectedContent);
 
-        popup.instance.close.subscribe(() => {
-            popup.destroy();
-        });
+            popup.instance.close.subscribe(() => {
+                popup.destroy();
+            });
 
         return popup.instance;
     }

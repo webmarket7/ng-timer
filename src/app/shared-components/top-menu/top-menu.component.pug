@@ -1,4 +1,5 @@
 .topline__section
+    a.menu__item('[routerLink]'="['/cars']") Cars
     ng-container('*ngIf'='(authState$ | async).authenticated; else auth')
         a.menu__item('(click)'='onLogOut()') Logout
     ng-template('#auth'='')
