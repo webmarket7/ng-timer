@@ -8,5 +8,7 @@ export class Bus extends Vehicle {
         public type: string
     ) {
         super(type);
+
+        this.myVariable = 0;
     }
 }
